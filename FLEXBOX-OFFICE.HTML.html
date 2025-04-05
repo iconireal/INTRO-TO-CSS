@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flexbox Crash Course</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #b3ccff;
+      color: #fff;
+    }
+
+    header {
+      background-color: #005ce6;
+      padding: 20px 0;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav h1 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin-left: 20px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ccc;
+    }
+
+    .showcase {
+      background-color: #007bff;
+      padding: 60px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .showcase-text {
+      max-width: 600px;
+      z-index: 1;
+    }
+
+    .showcase-text h2 {
+      font-size: 40px;
+      margin-bottom: 15px;
+    }
+
+    .showcase-text p {
+      font-size: 18px;
+      color: #e0e0e0;
+      max-width: 500px;
+    }
+
+    .square-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 150px;
+      height: 150px;
+      position: relative;
+      right: 20px;
+    }
+
+    .square {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #00d0ff;
+      border-radius: 5px;
+      background-color: transparent;
+    }
+
+    .boxes {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 60px 0;
+    }
+
+    .box {
+      background-color: #0040ff;
+      padding: 25px 20px;
+      border-radius: 15px;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+      flex: 1 1 calc(33.333% - 20px);
+      min-width: 280px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0,0,0,0.25);
+    }
+
+    .box h3 {
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .box p {
+      color: #d6e0f5;
+      font-size: 15px;
+    }
+
+    .icon {
+      font-size: 24px;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+      .showcase {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+      }
+
+      .square-group {
+        position: static;
+        margin-top: 30px;
+      }
+
+      .boxes {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <h1><span class="fa-stack">
+  <i class="fas fa-desktop fa-stack-1x"></i>
+  <i class="fas fa-user fa-stack-1x" style="font-size: 0.7em; position: relative; top: -5px; left: -5px;"></i>
+</span>FlexBox by Praise</h1>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section class="showcase">
+    <div class="container showcase-text">
+      <h2><i class="fas fa-desktop"></i>Flexbox Crash Course</h2>
+      <p>This crash course was created by Praise O. Ighoyivwi to help you learn the basics of flexbox. Flexbox is a very important and useful tool in CSS.</p>
+    </div>
+    <div class="container square-group">
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
+    </div>
+  </section>
+
+  <section class="container boxes">
+    <div class="box">
+      <h3><i class="fas fa-arrows-alt-v"></i>Alignment & Space</h3>
+      <p>A more efficient way to lay out, align and distribute space among items in a container.</p>
+    </div>
+    <div class="box">
+      <h3><i class="fas fa-arrows-alt"></i>Tricky Positioning</h3>
+      <p>Flexbox usually solves tricky problems including how to position or dynamically resize elements on a page.</p>
+    </div>
+    <div class="box">
+      <h3><i class="fas fa-mobile"></i>Responsive Design</h3>
+      <p>Flexbox makes building a website layout (and making it responsive) much, much easier.</p>
+    </div>
+  </section>
+</body>
+</html>
