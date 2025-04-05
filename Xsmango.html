@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mango Groove - Learn Coding the Fun Way!</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      background-color: #fefae0;
+      color: #333;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #faedcd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      flex-wrap: wrap;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .logo i {
+      color: orange;
+      margin-right: 5px;
+    }
+    nav {
+      flex-grow: 1;
+      text-align: right;
+    }
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+    }
+    .hero {
+      background: url('https://source.unsplash.com/1600x600/?code,technology') no-repeat center/cover;
+      color: white;
+      padding: 100px 20px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 48px;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
+    .courses {
+      padding: 40px 20px;
+    }
+    .courses h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .course-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .course {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .course h3 {
+      margin-bottom: 10px;
+    }
+    .footer {
+      background-color: #faedcd;
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+    }
+    @media (max-width: 768px) {
+      nav {
+        text-align: center;
+        margin-top: 10px;
+      }
+      nav a {
+        display: block;
+        margin: 5px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo"><i class="fas fa-apple-alt"></i> Mango Groove</div>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#courses">Courses</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>  <section class="hero">
+    <h1>Welcome to Mango Groove</h1>
+    <p>Learn web development and coding the easy way</p>
+  </section>  <section id="courses" class="courses">
+    <h2>Available & Upcoming Courses</h2>
+    <div class="course-list">
+      <div class="course"><h3>HTML</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>CSS</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>JavaScript</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>Flexbox Crash Course</h3><p>This is the complete Flexbox guide embedded below.</p></div>
+      <div class="course"><h3>C++</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>Python</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>Java</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>IT Basics</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>SQL</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>React</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>Node.js</h3><p>Coming soon...</p></div>
+      <div class="course"><h3>Git & GitHub</h3><p>Coming soon...</p></div>
+    </div>
+  </section>  <section style="padding: 40px 20px;">
+    <h2 style="text-align:center;">Flexbox Crash Course</h2>
+    <p style="text-align:center;">Learn how to use Flexbox to build responsive layouts.</p>
+    <iframe src="https://flexboxfroggy.com/" style="width:100%;height:500px;border:none;"></iframe>
+  </section>  <footer class="footer" id="contact">
+    <p>Founded by Praise Oghenetejiri Ighoyivwi</p>
+    <p>Contact: +2348147699878 | real.ighoyivwi@consultant.com</p>
+    <p>&copy; 2025 Mango Groove. All rights reserved.</p>
+  </footer>
+</body>
+</html>
