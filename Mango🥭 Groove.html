@@ -125,7 +125,15 @@ form button {
     <textarea name="message" placeholder="Your Message" required></textarea>
     <button type="submit">Send</button>
   </form>
-</div>
+      <div class="founder-contact">
+    <button onclick="document.getElementById('hiddenContact').style.display='block'">Contact Founder</button>
+    <div class="hidden-contact" id="hiddenContact">
+      <p><a href="mailto:real.ighoyivwi@consultant.com">Click to email the founder</a></p>
+      <p><a href="tel:+2348147699878">Click to call the founder</a></p>
+      <p><a href="https://wa.me/2348147699878" target="_blank">Click to WhatsApp the founder</a></p>
+    </div>
+      </div>
+    </div>
 
   </header>  <section class="course-grid">
     <div class="course-card">
@@ -157,20 +165,6 @@ form button {
       document.querySelector('.form-section').classList.toggle('dark');
     }
   </script><footer>
-  <div class="founder-info">
-    <h2>About the Founder</h2>
-    <p>Praise O. Ighoyivwi is a tech-savvy individual from Delta State, Nigeria, with a passion for making technology accessible and easy to understand. With a vision to empower individuals and organizations through coding and technology, Praise has dedicated himself to creating high-quality tutorial content.</p>
-    <p>As a firm believer that technology should be a tool for growth and development, Praise's mission is to break down complex concepts into simple, bite-sized lessons that anyone can follow. Through this tutorial site, Praise aims to provide comprehensive coding courses that cater to learners of all levels.</p>
-  </div>
-  <div class="founder-contact">
-    <h2>Get in Touch</h2>
-    <button onclick="document.getElementById('hiddenContact').style.display='block'">Contact Founder</button>
-    <div class="hidden-contact" id="hiddenContact">
-      <p><a href="mailto:real.ighoyivwi@consultant.com">Click to email the founder</a></p>
-      <p><a href="tel:+2348147699878">Click to call the founder</a></p>
-      <p><a href="https://wa.me/2348147699878" target="_blank">Click to WhatsApp the founder</a></p>
-    </div>
-  </div>
   <div class="copyright">
     <p>&copy; 2025 🥭 Mango Groove Tutorial Site. All rights reserved.</p>
   </div>
