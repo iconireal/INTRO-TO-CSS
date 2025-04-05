@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mango Groove - Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --text: #ffffff;
+      --accent: #00bcd4;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background: url('file-RSYmUwQN6bUkMz8yNmBzbX') no-repeat center center/cover;
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .dark-mode {
+      --bg: #ffffff;
+      --text: #0d0d0d;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 2rem;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    input, textarea {
+      padding: 0.75rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .toggle-btn {
+      margin-top: 1rem;
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+    }
+
+    .hidden-info {
+      display: none;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Mango Groove is Coming Soon!</h1>
+    <p>Stay tuned for our multi-course tech tutorial platform. Get notified when we launch!</p>
+
+    <!-- Subscription Form -->
+    <form action="https://formspree.io/f/movekokp" method="POST">
+      <input type="email" name="email" placeholder="Enter your email to subscribe" required>
+      <button type="submit">Subscribe</button>
+    </form>
+
+    <!-- Contact Form -->
+    <form action="https://formspree.io/f/movekokp" method="POST">
+      <input type="text" name="name" placeholder="Your name" required>
+      <input type="email" name="email" placeholder="Your email" required>
+      <textarea name="message" placeholder="Your message" rows="4" required></textarea>
+      <button type="submit">Contact Us</button>
+    </form>
+
+    <!-- Founder Contact -->
+    <div style="margin-top: 2rem;">
+      <button onclick="toggleInfo()">Founder Contact</button>
+      <div class="hidden-info" id="contactInfo">
+        <p>Email: <a href="mailto:real.ighoyivwi@consultant.com">Click to email</a></p>
+        <p>Phone: <a href="tel:+2348147699878">Click to call</a> | <a href="https://wa.me/2348147699878">WhatsApp</a></p>
+      </div>
+    </div>
+
+    <button class="toggle-btn" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+  </div>
+
+  <script>
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function toggleInfo() {
+      const info = document.getElementById('contactInfo');
+      info.style.display = info.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+
+</html>
