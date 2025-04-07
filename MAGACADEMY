@@ -1,0 +1,384 @@
+ <!-- This is Mangrove website -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mango Groove Academy | HTML Mastery</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <style>
+      :root {
+      --main-color: #ff6b35;
+      --bg-color: #f9f9f9;
+      --text-color: #333;
+      --header-bg: #1f1f1f;
+      --section-bg: #ffffff;
+      --accent: #1e90ff;
+      --code-bg: #1e1e1e;
+      --code-text: #f5f5f5;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    header {
+      background-color: var(--header-bg);
+      color: #fff;
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    .logo i {
+      font-size: 36px;
+      margin-right: 10px;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    nav a {
+      /* Adjust the value as needed to increase or decrease spacing */
+      /* Add margin to create space between navigation items */
+      margin: 5px 10px;
+      display: block;
+      margin-bottom: 20px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .hero {
+      padding: 4rem 2rem;
+      background-color: var(--main-color);
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+      background: var(--section-bg);
+      box-shadow: 0 0 15px rgba(0,0,0,0.05);
+      margin-top: 2rem;
+      border-radius: 8px;
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-top: 2rem;
+    }
+
+   pre {
+      background-color: var(--code-bg);
+      color: var(--code-text);
+      padding: 1rem;
+      border-radius: 0;
+      overflow-x: auto;
+      font-family: Consolas, monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    iframe {
+      width: 100%;
+      height: 315px;
+      margin: 1rem 0;
+      border: none;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: var(--header-bg);
+      color: #fff;
+      margin-top: 4rem;
+    }
+
+    .update-notice {
+      text-align: center;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .countdown {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .countdown span {
+      display: inline-block;
+      margin: 0 10px;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav a {
+        margin: 0.5rem 0 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <i class="fas fa-graduation-cap" style="color: #3498db;"></i>
+      <span class="logo-text">Mango Groove Academy</span>
+    </div>
+    <nav>
+      <a href="#module1">Intro</a>
+      <a href="#module2">Elements</a>
+      <a href="#module3">Forms</a>
+      <a href="#module4">HTML5</a>
+      <a href="#module5">Best Practices</a>
+      <a href="#module6">Project</a>
+    </nav>
+  </header>
+  <section class="hero">
+    <h2><b>HTML Mastery Course by Master Praise</b></h2>
+    <p>Master HTML from basics to building your first complete website!</p>
+    <p><b>From your facilitator before Starting the HTML Course:</b></p>
+    <ul>
+      <li>Basic computer skills and familiarity with the internet</li>
+      <li>A computer, mobile phone( though might be stressful using mobile phone ) or laptop preferred with internet access</li>
+      <li>A text editor or code editor (e.g., Notepad++, Sublime Text, Visual Studio Code)</li>
+      <li>A modern web browser (e.g., Google Chrome, Mozilla Firefox)</li>
+      <li>Basic understanding of how websites work</li>
+    </ul>
+    <p>
+      Get Started Today! If you have any questions or concerns about the course, feel free to
+      <a href="https://wa.me/2348147699878" style="color:white; font-weight:bold;">contact our facilitator via WhatsApp</a> or
+      <a href="mailto:Real.ighoyivwi@consultant.com" style="color:white; font-weight:bold;">send an email</a>.
+      We're excited to have you on board and look forward to helping you learn HTML!
+    </p>
+  </section>
+
+  <div class="container">
+  <section id="module1">
+ 
+    <h2>Module 1: Introduction to HTML</h2>
+    <ul>
+      <li>
+        <strong>History of HTML:</strong><br/>
+        <pre style="width: 100%; white-space: pre-wrap; word-wrap: break-word;">
+          1. Early Days (1980s): Tim Berners-Lee, a British computer scientist, invented HTML in the late 1980s while working at CERN. He designed HTML to facilitate the sharing of scientific documents over the internet.
+          2. First Version (1993): The first version of HTML, HTML 1.0, was published in 1993. It was a simple markup language with limited features.
+          3. HTML 2.0 (1995): HTML 2.0 was published in 1995, introducing features like tables, forms, and client-side image maps.
+          4. HTML 3.2 (1997): HTML 3.2 was published in 1997, adding features like tables, applets, and style sheets.
+          5. HTML 4.01 (1999): HTML 4.01 was published in 1999, introducing features like improved table support, accessibility features, and internationalization.
+          6. XHTML (2000s): XHTML (Extensible HyperText Markup Language) was introduced in the early 2000s, aiming to make HTML more extensible and compatible with XML.
+          7. HTML5 (2014): HTML5 was published in 2014, revolutionizing web development with features like:
+            - Improved multimedia support (video, audio, canvas)
+            - Enhanced semantic elements (header, footer, nav, section)
+            - Offline storage and caching
+            - Improved accessibility features
+          8. Current Status (2023): HTML continues to evolve, with ongoing work on new features, accessibility improvements, and better support for modern web development needs.
+        </pre>
+      </li>
+    </ul>
+  </section>
+</div>
+
+      <li>
+         <strong>Today's HTML (Our amazing package)</strong><br/>
+          HTML's history and ongoing development have transformed the web into the powerful, interactive, and accessible medium we know today
+        <ul>
+          <li>HTML remains the foundation of the web, and its evolution continues to shape the way we build and interact with web applications. With the rise of modern web development frameworks and libraries, HTML's role has expanded to include:</li>
+          <li>Semantic HTML: Using HTML elements to convey meaning and structure, rather than just presentation.</li>
+          <li>Accessibility: Ensuring web pages are accessible to users with disabilities, following guidelines like the Web Content Accessibility Guidelines (WCAG).</li>
+          <li>Responsive Design: Creating web pages that adapt to different screen sizes, devices, and orientations.</li>
+        </ul>
+     </li>
+    
+     <li>
+       <strong>What is HTML?</strong><br/>
+       HTML (HyperText Markup Language) is a standard markup language used to create web pages. It provides the structure and content of a webpage, allowing web browsers to interpret and display the page's layout, text, images, and other multimedia elements.
+     </li>
+
+     <li>
+         <strong>Basic structure of an HTML document:</strong><br/>
+         <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+   &lt;head&gt;
+     &lt;title&gt;Page Title&lt;/title&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+     &lt;!-- Content goes here --&gt;
+   &lt;/body&gt;
+&lt;/html&gt;
+          </pre>
+      </li>
+
+     <li>
+        <ul>
+          <li>DOCTYPE declaration: Declares the document type and version of HTML.</li>
+          <li>html element:The root element of the HTML document.</li>
+          <li>head element:Contains metadata about the document, such as the title, charset, and links to external stylesheets or scripts.</li>
+          <li>title element:Sets the title of the page, which appears in the browser's title bar and in search engine results</li>
+          <li>body element:Contains every other content of the HTML document.</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>HTML Elements and Tags:</strong><br/>
+        <ul>
+          <li><strong>Block-level elements:</strong> &lt;div&gt;, &lt;p&gt;, &lt;h1&gt;-&lt;h6&gt;, &lt;ul&gt;/&lt;li&gt;</li>
+          <li><strong>Inline elements:</strong> &lt;span&gt;, &lt;a&gt;, &lt;img&gt;, &lt;strong&gt;</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Attributes and Values:</strong><br/>
+        <ul>
+          <li><strong>Common attributes:</strong> id, class, style, href, src</li>
+          <li><strong>Boolean attributes:</strong> checked, disabled</li>
+        </ul>
+      </li>
+    </ul>
+
+    <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;&lt;title&gt;Page Title&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;&lt;h1&gt;Hello World&lt;/h1&gt;&lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+
+    <p>
+      <a href="https://youtu.be/it1rTvBcfRg?si=jcOq7qDXY0Pc_iZA" target="_blank" style="color: var(--accent); font-weight: bold;">
+        Watch this video on introduction to HTML in 3 minutes 13s — Do yourself a favor to return and continue your study
+      </a>
+    </p>
+     </section>
+</div>
+
+    <section id="module2">
+      <h2>Module 2: HTML Elements</h2>
+      <ul>
+        <li>Headings, Paragraphs, Links</li>
+        <li>Images</li>
+        <li>Lists and Tables</li>
+      </ul>
+      <pre>
+&lt;h1&gt;Welcome&lt;/h1&gt;
+&lt;p&gt;This is a paragraph.&lt;/p&gt;
+&lt;a href="#"&gt;Click here&lt;/a&gt;
+      </pre>
+      <p>
+  <a href="https://youtu.be/I1aKHkLZrOA?si=jhgqFPGQrOXRFKGb" target="_blank" style="color: var(--accent); font-weight: bold;">Watch this video for HTML elements vital and clear understanding in 9minutes-Do yourself a favor to return and continue your study</a>
+</p><hr><p><a href="https://youtu.be/yMX901oVtn8?si=DTPjT38ChuBTMUn3" target="_blank" style="color: var(--accent); font-weight: bold;">Go watch-Vital info on HTML attributes in 2minutes 17s-Do yourself a favor to return and continue your study</a></p>
+     </section>
+
+    <section id="module3">
+      <h2>Module 3: HTML Forms</h2>
+      <ul>
+        <li>Form elements</li>
+        <li>Form attributes</li>
+        <li>Form validation</li>
+      </ul>
+      <pre>
+&lt;form&gt;
+  &lt;input type="text" name="name"&gt;
+  &lt;input type="email" name="email"&gt;
+  &lt;button&gt;Submit&lt;/button&gt;
+&lt;/form&gt;
+      </pre>
+      <p>
+  <a href="https://youtu.be/2O8pkybH6po?si=Z7Wt1cDZcAMrXwac" target="_blank" style="color: var(--accent); font-weight: bold;">Go watch-All in one Form video in 8minutes 39s-Do yourself a favor to return and continue your study</a>
+</p>
+    </section>
+
+    <section id="module4">
+      <h2>Module 4: HTML5 Features</h2>
+      <ul>
+        <li>Semantic elements</li>
+        <li>Multimedia</li>
+        <li>Canvas</li>
+      </ul>
+      <pre>
+&lt;video width="320" height="240" controls&gt;
+  &lt;source src="video.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+      </pre>
+       <p>
+  <a href="https://youtu.be/salY_Sm6mv4?si=LNHLdP0-ozrSR1OB" target="_blank" style="color: var(--accent); font-weight: bold;">Watch video on HTML in 5minutes 11s-Do yourself a favor to return and continue your study</a>
+</p>
+   </section>
+
+    <section id="module5">
+      <h2>Module 5: Best Practices</h2>
+      <ul>
+        <li>Semantic HTML</li>
+        <li>Accessibility</li>
+        <li>Compatibility</li>
+      </ul>
+      <pre>
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;title&gt;Accessible Webpage&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Welcome&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+      </pre>
+      <p>
+  <a href="https://youtu.be/0Y1EEG4GyKU?si=RXBe7SBy_uEEY4cx" target="_blank" style="color: var(--accent); font-weight: bold;">Watch video on Semantics, Accessibility & Compatibility 10minutes 28s-Do yourself a favor to return and continue your study</a>
+</p>
+   </section>
+
+    <section id="module6">
+      <h2>Module 6: HTML Project</h2>
+      <p>Build a simple multi-page website using everything you've learned.</p>
+      <ul>
+        <li>Home page</li>
+        <li>About page</li>
+        <li>Contact form</li>
+      </ul>
+      <p>
+  <a href="https://youtu.be/PlxWf493en4?si=VIIg3hRFHlJweVMv" target="_blank" style="color: var(--accent); font-weight: bold;">Watch tutorial video to speed your HTML project 33minutes 28s-Do yourself a favor to return and continue your study</a>
+</p>
+<button onclick="scrollToTop()" style="background-color: var(--main-color); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Back to Course</button>
+ </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Family and Co Group. All Rights Reserved. Project by FamGro</p>
+    <p>
+      <a href="mailto:real.ighoyivwi@consultant.com" style="color:white">Email</a> |
+      <a href="https://wa.me/2348147699878" style="color:white">WhatsApp</a>
+    </p>
+  </footer>
+   <script>
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
