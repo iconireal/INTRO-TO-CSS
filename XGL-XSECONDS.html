@@ -1,0 +1,646 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XGL Logistics</title>
+     <!-- Add Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+
+  <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: SkyBlue;
+    color: #fff;
+    padding: 2em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.hidden-info {
+    background-color: SkyBlue;
+    display: none;
+    margin: 10px 0;
+    padding: 10px;
+    background: #f1f1f1;
+    border-left: 4px solid #333;
+    border-radius: 6px;
+  }
+
+  .menu-toggle {
+    background-color: skyblue;
+    color: #fff;
+    border: none;
+    padding: 10px 0px;
+    font-size: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    left: 100px;
+    z-index: 1000;
+    border-radius: 6px;
+}
+
+#nav-menu {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    background-color: skyblue;
+    padding: 1em;
+    border-radius: 8px;
+    z-index: 999;
+}
+
+#nav-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#nav-menu li {
+    margin-bottom: 10px;
+}
+
+#nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#nav-menu.show {
+    display: block;
+}
+       
+  /* General form and layout */
+  #auth-container, #dashboard {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 12px;
+    background: SkyBlue;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  }
+
+  #auth-container h2, #dashboard h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="file"],
+  select {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+  }
+
+  button {
+    display: block;
+    width: 100%;
+    background-color: SkyBlue;
+    color: black;
+    border: none;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  button:hover {
+    background-color: SkyBlue;
+  }
+
+  #logoutBtn {
+    float: right;
+    background: SkyBlue;
+    color: white;
+    padding: 8px 12px;
+    margin-right: 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+
+  #logoutBtn:hover {
+    background: SkyBlue;
+  }
+
+  label {
+    font-weight: bold;
+    margin-top: 10px;
+    display: block;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+section {
+    padding: 2em;
+    list-style: none;
+}
+
+h2 {
+    color: #333;
+}
+
+button {
+    background-color: SkyBlue;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: SlyBlue;
+}
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7);
+  }
+  .modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 10px black;
+  }
+  .close-btn {
+    float: right;
+    font-size: 22px;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+  }
+
+footer {
+    background-color:SkyBlue;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    clear: both;
+}
+
+footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer ul li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+</style>
+  </head>
+<body onclick="checkAuth()">
+<header style="position: relative;"> 
+           <h1>XGL</h1>
+
+  <!-- Toggle Button (acts like hamburger/menu icon) -->
+  <button class="menu-toggle" onclick="toggleMenu()">&#9776;</button> <!-- Unicode hamburger -->
+
+  <!-- Navigation Menu -->
+  <nav id="nav-menu">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" id="logoutBtn" onclick="logout()" style="display: none;">Logout</a></li>
+    </ul>
+  </nav>
+</header>
+
+                 <!-- REGISTRATION FORM FIRST USER INTERFACE -->
+
+       <div id="auth-container">
+  <div id="signup" style="display: block;">
+    <h2 style="color: white;">Sign Up</h2>
+    <input type="text" id="signupName" placeholder="Full Name" />
+    <input type="email" id="signupEmail" placeholder="Email" />
+    <input type="password" id="signupPassword" placeholder="Password" />
+    <button onclick="signUp()">Sign Up</button>
+    <p style="color: white;">Already have an account? <a href="#" onclick="showLogin()" style="color: white;">Login here</a></p>
+  </div>
+
+  <div id="login" style="display: none;">
+    <h2>Login</h2>
+    <input type="email" id="loginEmail" placeholder="Email" />
+    <input type="password" id="loginPassword" placeholder="Password" />
+    <button onclick="signIn()">Login</button>
+    <p style="color: #fff;">Don't have an account? <a href="#" onclick="showSignUp()" style="color: #fff;">Sign up</a></p>
+  </div>
+</div>
+
+            <!-- HOME SECTION -->
+<section id="home" style="text-align: center; padding: 2em;">
+  <h2 style="color: SkyBlue">Welcome to XGL | Xnow Global Logistics</h2>
+  <p>Your reliable delivery partner for interstate, local, and on-demand logistics across Nigeria.</p> 
+  <img src="https://static.vecteezy.com/system/resources/previews/050/052/263/large_2x/portrait-of-asian-online-taxi-driver-wearing-green-jacket-and-helmet-holding-a-box-and-scanning-or-capturing-the-package-isolated-image-on-white-background-photo.jpg" 
+         alt="XGL Delivery Driver" 
+         style="width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+  </section>
+    
+        <section id="quote-estimator" class="quote-section">
+  <h2 style="color: SkyBlue">Get an Instant Delivery Quote</h2>
+  <form id="quoteForm">
+    <input type="text" placeholder="Pickup Location" required>
+    <input type="text" placeholder="Delivery Location" required>
+    <select required>
+      <option disabled selected>Choose Vehicle</option>
+      <option value="bike">Bike</option>
+      <option value="car">Car</option>
+      <option value="truck">Truck</option>
+    </select>
+    <button type="submit">Estimate Now</button>
+  </form>
+  <p id="quote-result"></p>
+</section>
+
+    <!-- DASHBOARD AND SHIPMENT FORM APPEARS ONLY AFTER SIGN UP/SIGN IN  -->
+
+<div id="dashboard" style="display: none;">
+  <h2 style="color: SkyBlue;">Welcome, <span id="userName"></span></h2>
+
+  <section id="shipment">
+    <h3 style="SkyBlue">Ship Now</h3>
+    <input type="text" id="pickup" placeholder="Pickup Location" />
+    <input type="text" id="delivery" placeholder="Delivery Location" />
+    <button onclick="goToDetails()" style="color: SkyBlue;">Next</button>
+  </section>
+
+  <section id="shipmentDetails" style="display: none;">
+    <h3 style="color: SkyBlue;">Shipment Details</h3>
+    <select id="category">
+      <option value="Documents">Documents</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Clothing">Clothing</option>
+      <option value="Food">Food</option>
+    </select>
+    <input type="text" id="description" placeholder="Item Description" />
+    <input type="file" id="imageUpload" />
+    <button onclick="sendShipment()" style="color: SkyBlue;">Send</button>
+  </section>
+</div> 
+
+          <!-- SERVICE AND ABOUT PAGE -->
+
+    <section id="services">
+  <h2 style="color: SkyBlue;">Our Services</h2>
+    <li onclick="toggleInfo('interstateInfo')" style="cursor:pointer;">
+      Interstate Delivery
+      <div id="interstateInfo" class="hidden-info">
+        <p><strong>What it is:</strong> Delivery of packages between states in South-South and South-West Nigeria.<br>
+        <strong>Why choose this:</strong> Best for long-distance shipments that require secure, documented handover across state borders.</p>
+      </div>
+    </li><li onclick="toggleInfo('localInfo')" style="cursor:pointer;">
+  Local Delivery
+  <div id="localInfo" class="hidden-info">
+    <p><strong>What it is:</strong> Delivery within the same city or town.<br>
+    <strong>Why choose this:</strong> Fastest delivery option for urgent, same-day dispatches or small-radius errands.</p>
+  </div>
+</li>
+
+  </ul>  <h3 style="color: SkyBlue;">Vehicle Options</h3>
+  <ul>
+    <li onclick="toggleInfo('carInfo')" style="cursor:pointer;">
+      Cars
+      <div id="carInfo" class="hidden-info">
+        <p><strong>Use for:</strong> Medium-sized deliveries that need extra protection (e.g. electronics, clothes).<br>
+        <strong>Why choose this:</strong> Balanced speed, safety, and weather protection.</p>
+      </div>
+    </li><li onclick="toggleInfo('bikeInfo')" style="cursor:pointer;">
+  Bikes
+  <div id="bikeInfo" class="hidden-info">
+    <p><strong>Use for:</strong> Small items and urgent deliveries (e.g. documents, parcels).<br>
+    <strong>Why choose this:</strong> Fastest option for local delivery, can navigate traffic easily.</p>
+  </div>
+</li>
+
+<li onclick="toggleInfo('trunkInfo')" style="cursor:pointer;">
+  Trunk
+  <div id="trunkInfo" class="hidden-info">
+    <p><strong>Use for:</strong> Bulk deliveries, furniture, large goods.<br>
+    <strong>Why choose this:</strong> Large capacity and suited for moving items across towns or states.</p>
+  </div>
+</li>
+
+  </ul>
+</section>
+
+    <section id="about" style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px; padding: 20px;">
+  <div style="flex: 1; min-width: 250px;">
+    <h2 style="color: SkyBlue;">About Us | XGL</h2>
+
+  <div style="flex: 1; min-width: 250px;">
+    <img src="https://static.vecteezy.com/system/resources/previews/050/052/263/large_2x/portrait-of-asian-online-taxi-driver-wearing-green-jacket-and-helmet-holding-a-box-and-scanning-or-capturing-the-package-isolated-image-on-white-background-photo.jpg" 
+         alt="XGL Delivery Driver" 
+         style="width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+  </div>
+    <p>
+      At XGL Logistics, we are committed to redefining delivery excellence within South South and South West Nigeria. Our mission is simple to provide fast, secure, and affordable logistics solutions that connect cities, communities, and people across the regions we serve.<br><br>
+      We understand the unique challenges and opportunities of local logistics in Nigeria. That’s why we tailor every delivery, pickup, and transport operation to suit the terrain, urgency, and customer needs whether it’s a short distance drop-off or an interstate shipment.<br><br>
+      Backed by a trusted network of trained drivers, real-time tracking technology, and reliable customer service, we ensure that your packages arrive safely and on time, every time. Whether you're sending a document, parcel, or cargo. XGL is your go to logistics partner.<br><br>
+
+      <strong>Our Core Values:</strong><br>
+      <strong>Reliability:</strong> We deliver what we promise, without compromise.<br>
+      <strong>Security:</strong> Every item is handled with care and accountability.<br>
+      <strong>Speed:</strong> We move with urgency and precision.<br>
+      <strong>Transparency:</strong> Real-time updates and open communication.<br><br>
+      Join the XGL experience where your delivery is more than just a shipment; it's a commitment.
+    </p>
+  </div>
+  
+</section>
+
+    <section id="benefits">
+        <h2 style="color: SkyBlue;">Benefits</h2>
+        <ul></ul>
+            <li>Convenience</li>
+            <li>Reliability</li>
+            <li>Affordability</li>
+        </ul>
+    </section>
+
+ <!-- Clickable logos/icons -->
+<div style="display: flex; gap: 1em; cursor: pointer;">
+  <i class="fas fa-envelope" onclick="toggleContact('email')" title="Show Email"></i>
+  <i class="fas fa-phone" onclick="toggleContact('phone')" title="Show Phone"></i>
+</div>
+
+<!-- Hidden contact info -->
+      <h2 style="color: SkyBlue;">Quick & Hot Line</h2>
+<div id="contactInfo" style="margin-top: 1em;">
+  <p id="emailInfo" style="display: none;">
+    <strong>Email:</strong> <a href="mailto:velogistics@deliveryman.com">velogistics@deliveryman.com</a>
+  </p>
+  <p id="phoneInfo" style="display: none;">
+    <strong>Phone:</strong> <a href="tel:+2348147699878">08147699878</a>
+  </p>
+</div>
+
+<!-- Terms & Conditions Modal -->
+<div id="termsModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="toggleModal('termsModal')">&times;</span>
+    <h2>Terms & Conditions</h2>
+    <p><strong>Scope of Service:</strong><br> XGL Logistics operates within Nigeria, currently servicing only the South-South and South-West regions.<br><b>We provide:</b><br>
+
+Pickup and delivery of parcels, items, and documents.
+
+Shipment tracking and real-time updates.
+
+Domestic freight and haulage solutions.
+
+Last-mile delivery and same-day dispatch where applicable.
+</p>
+    <p><strong>Client Responsibilities:</strong><br>Clients agree to provide accurate shipment info, avoid prohibited items, and package securely.Ensure packages comply with size, weight, and content restrictions. Avoid illegal or prohibited items (e.g., explosives, contraband, flammable materials). Package items securely to avoid damage.</p>
+    <p><strong>Shipment Conditions:</strong><br>We may inspect packages and are not liable for third-party delays. XGL reserves the right to inspect shipments for safety and compliance.
+Delivery times are estimated and may vary due to traffic, weather, technical issues, or security concerns.
+Clients are responsible for customs clearance and local fees, if applicable.
+We may refuse or return items that do not meet our standards.</p>
+    <p><strong>Claims & Liability:</strong><br>Claims of damage or lost shipments must be filed within 72 hours. Liability is limited to declared value or standard rates. XGL’s liability is limited to the declared value or standard rates as per service type. XGL is not liable for delays caused by third-party factors, government regulations, or acts of God.</p>
+    <p><strong>Jurisdiction:</strong><br>These terms are governed by the laws of the Federal Republic of Nigeria. Disputes arising under these terms shall be settled under the jurisdiction of courts located within the South-West or South-South regions of Nigeria.</p>
+  </div>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div id="privacyModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="toggleModal('privacyModal')">&times;</span>
+    <h2>Privacy Policy</h2>
+XGL Logistics respects your privacy. This policy explains how we collect, use, and protect your information.
+    <p><strong>Data We Collect:</strong> <br> Full name, email, and phone number. Pickup and delivery addresses, Shipment details (content description, value, image), Technical data (IP address, device info)</p>
+    <p><strong>Usage:</strong><br>Your data helps us:<br>Process and deliver shipments
+Communicate with you about your order
+Enhance our services and improve user experience
+Ensure compliance with logistics regulations
+</p>
+    <p><strong>Data Security:</strong><br>All customer data is encrypted during transfer and storage. We do not sell, rent, or share your personal information with third parties without your consent. You may request data deletion at any time via our office location or contact.</p>
+  </div>
+</div>
+
+<!-- Security Policy Modal -->
+<div id="securityModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="toggleModal('securityModal')">&times;</span>
+    <h2>Security Policy</h2>
+XGL prioritizes the safety of your shipments and personal data.
+
+    <p><strong>Shipment Security:</strong> All shipments are tracked end-to-end. Drivers and personnel are verified and trained. Packages are sealed and monitored during transit.</p>
+    <p><strong>Digital Security:</strong> Our platform uses HTTPS and SSL encryption. Data is stored securely with access controls in place. Suspicious activity is monitored and flagged automatically.</p>
+    <p><strong>Fraud & Abuse Prevention:</strong> Users must register with verified contact details. Accounts involved in suspicious activity will be suspended. Reports of fraud should be directed to velogistics@deliveryman.com .</p>
+  </div>
+</div>
+
+
+<footer style="background: SkyBlue; color:white; padding:20px; text-align:center;">
+  <p>&copy; 2023 XGL Logistics |
+    <a href="#" onclick="toggleModal('termsModal')">Terms & Conditions</a> |
+    <a href="#" onclick="toggleModal('privacyModal')">Privacy Policy</a> |
+    <a href="#" onclick="toggleModal('securityModal')">Security Policy</a>
+  </p>
+     <strong><h2 style="color: white;">Contact Us</h2></strong>
+  <div style="margin-top:10px;">
+    <a href="" target="_blank" title="LinkedIn" style="margin:0 10px; color:white;">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" width="20" alt="LinkedIn" style="filter:invert(1); vertical-align:middle;">
+    </a>
+    <a href="https://www.instagram.com/xgl.online" target="_blank" title="Instagram" style="margin:0 10px; color:white;">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" width="20" alt="Instagram" style="filter:invert(1); vertical-align:middle;">
+    </a>
+    <a href="https://www.facebook.com/share/162teWVYkd/" target="_blank" title="Facebook" style="margin:0 10px; color:white;">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" width="20" alt="Facebook" style="filter:invert(1); vertical-align:middle;">
+    </a>
+    <a href="" target="_blank" title="X (Twitter)" style="margin:0 10px; color:white;">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg" width="20" alt="X" style="filter:invert(1); vertical-align:middle;">
+    </a>
+    <a href="" target="_blank" title="Telegram" style="margin:0 10px; color:white;">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/telegram.svg" width="20" alt="Telegram" style="filter:invert(1); vertical-align:middle;">
+    </a>
+    <a href="https://www.threads.net/@xgl.online" target="_blank" title="Threads" style="margin:0 10px; color:white;">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/threads.svg" width="20" alt="Threads" style="filter:invert(1); vertical-align:middle;">
+    </a>
+    <a href="mailto:velogistics@deliveryman.com" title="Email" style="margin:0 10px; color:white;">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/maildotru.svg" width="20" alt="Email" style="filter:invert(1); vertical-align:middle;">
+    </a>
+  </div>
+</footer>
+
+    <script>
+  function showLogin() {
+    document.getElementById("signup").style.display = "none";
+    document.getElementById("login").style.display = "block";
+  }
+
+  function showSignUp() {
+    document.getElementById("signup").style.display = "block";
+    document.getElementById("login").style.display = "none";
+  }
+
+  function signUp() {
+    const name = document.getElementById("signupName").value;
+    const email = document.getElementById("signupEmail").value;
+    const password = document.getElementById("signupPassword").value;
+    if (name && email && password) {
+      localStorage.setItem(email, JSON.stringify({ name, email, password }));
+      alert("Signup successful. Please login.");
+      showLogin();
+    } else {
+      alert("All fields are required.");
+    }
+  }
+
+  function signIn() {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+    const user = JSON.parse(localStorage.getItem(email));
+    if (user && user.password === password) {
+      localStorage.setItem("currentUser", email);
+      checkAuth();
+    } else {
+      alert("Invalid credentials.");
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem("currentUser");
+    checkAuth();
+  }
+
+  function checkAuth() {
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+      document.getElementById("auth-container").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+      document.getElementById("logoutBtn").style.display = "inline-block";
+      const user = JSON.parse(localStorage.getItem(currentUser));
+      document.getElementById("userName").innerText = user.name;
+    } else {
+      document.getElementById("auth-container").style.display = "block";
+      document.getElementById("dashboard").style.display = "none";
+      document.getElementById("logoutBtn").style.display = "none";
+    }
+  }
+
+       document.getElementById('quoteForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    document.getElementById('quote-result').textContent = "Estimated Price: ₦1,500 - ₦4,000";
+  });
+
+  function goToDetails() {
+    document.getElementById("shipment").style.display = "none";
+    document.getElementById("shipmentDetails").style.display = "block";
+  }
+
+  function sendShipment() {
+    const currentUser = JSON.parse(localStorage.getItem(localStorage.getItem("currentUser")));
+    const pickup = document.getElementById("pickup").value;
+    const delivery = document.getElementById("delivery").value;
+    const category = document.getElementById("category").value;
+    const description = document.getElementById("description").value;
+    const image = document.getElementById("imageUpload").files[0];
+
+    const formData = new FormData();
+    formData.append("pickup", pickup);
+    formData.append("delivery", delivery);
+    formData.append("category", category);
+    formData.append("description", description);
+    formData.append("user", currentUser.email);
+    formData.append("image", image);
+
+    fetch("https://formspree.io/f/movekokp", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    }).then(response => {
+      if (response.ok) {
+        alert("Shipment info sent successfully!");
+      } else {
+        alert("Failed to send shipment.");
+      }
+    });
+  }
+       
+function toggleMenu() {
+    const menu = document.getElementById("nav-menu");
+    menu.classList.toggle("show");
+  }
+
+  function toggleContact(type) {
+    const email = document.getElementById('emailInfo');
+    const phone = document.getElementById('phoneInfo');
+
+    if (type === 'email') {
+      email.style.display = email.style.display === 'none' ? 'block' : 'none';
+    } else if (type === 'phone') {
+      phone.style.display = phone.style.display === 'none' ? 'block' : 'none';
+    }
+  }
+
+     function toggleInfo(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.display = el.style.display === "block" ? "none" : "block";
+    }
+  }
+
+
+  function toggleModal(id) {
+    var modal = document.getElementById(id);
+    modal.style.display = (modal.style.display === "block") ? "none" : "block";
+  }
+
+  // Close modals if user clicks outside content
+  window.onclick = function(e) {
+    document.querySelectorAll('.modal').forEach(modal => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+  }
+
+    </script>
+</body>
+</html>
