@@ -73,24 +73,10 @@
       text-align: center;
     }
 
-    .container section {
-    display: none;
-    }
-
     .container section.active { 
      display: block;
     }
 
-     .next-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #7A288A;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-     }
-   
     h2 {
       color: #7A288A;
       margin-top: 2rem;
@@ -853,31 +839,6 @@ Width and Height
     </p>
   </footer>
    <script>
-           document.addEventListener("DOMContentLoaded", function () {
-      const modules = ["module1", "module2", "module3" "module4" "module5" "module6"];
-
-            if (index === 0) {
-  el.classList.add("active");
-            }
-            
-      modules.forEach((id, index) => {
-        if (index < modules.length - 1) {
-          const btn = document.createElement("button");
-          btn.textContent = "Next";
-          btn.className = "next-btn";
-
-          btn.onclick = function () {
-            document.getElementById(modules[index]).classList.remove("active");
-            document.getElementById(modules[index + 1]).classList.add("active");
-            window.scrollTo(0, 0);
-          };
-
-          const section = document.getElementById(id);
-          section.appendChild(btn);
-        }
-      });
-    });
-
        // Set the target date and time for the countdown
 const targetDate = new Date('October 10, 2025 00:00:00').getTime();
 
