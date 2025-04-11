@@ -65,23 +65,27 @@
       font-weight: bold;
     }
 
-       .course-table {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 20px;
+       .course-table table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.course-table th, .course-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.course-table th {
+  background-color: #f0f0f0;
 }
 
 .course-card {
-  flex: 1 1 300px;
-  max-width: 31%;
-  min-width: 250px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  background-color: #fff;
+}
+
+.course-card:hover {
+  background-color: #f5f5f5;
 }
       
     .hero {
@@ -192,83 +196,86 @@
   <div class="countdown" aria-label="Countdown to expiration"></div>
  </section>
 
- <div class="course-table">
-    <!-- Beginner Courses -->
-    <div class="course-card">
-      <h2>Introduction to Programming</h2>
-      <p>Learn the basics of programming, including data types, variables, control structures, and functions.</p>
-    </div>
-    <div class="course-card">
-      <h2>HTML/CSS</h2>
-      <p>Build a strong foundation in HTML and CSS, including semantic HTML, CSS selectors, and responsive design.</p>
-    </div>
-    <div class="course-card">
-      <h2>JavaScript Basics</h2>
-      <p>Learn the fundamentals of JavaScript, including data types, variables, functions, and control structures.</p>
-    </div>
-
-    <!-- Front-end Development Courses -->
-    <div class="course-card">
-      <h2>Front-end Development with React</h2>
-      <p>Learn how to build reusable UI components with React, including state management and props.</p>
-    </div>
-    <div class="course-card">
-      <h2>Responsive Web Design</h2>
-      <p>Learn how to create responsive web designs using CSS media queries and flexbox.</p>
-    </div>
-    <div class="course-card">
-      <h2>UI/UX Design Principles</h2>
-      <p>Learn the principles of user interface and user experience design, including human-centered design and usability testing.</p>
-    </div>
-
-    <!-- Back-end Development Courses -->
-    <div class="course-card">
-      <h2>Introduction to Back-end Development</h2>
-      <p>Learn the basics of back-end development, including server-side programming, databases, and API design.</p>
-    </div>
-    <div class="course-card">
-      <h2>Node.js and Express</h2>
-      <p>Learn how to build server-side applications with Node.js and Express, including routing, middleware, and database integration.</p>
-    </div>
-    <div class="course-card">
-      <h2>Database Management</h2>
-      <p>Learn how to design and manage databases, including data modeling, normalization, and querying.</p>
-    </div>
-
-    <!-- Full-stack Development Courses -->
-    <div class="course-card">
-      <h2>Full-stack Development with React and Node.js</h2>
-      <p>Learn how to build full-stack applications with React and Node.js, including authentication and authorization.</p>
-    </div>
-    <div class="course-card">
-      <h2>API Design and Development</h2>
-      <p>Learn how to design and develop RESTful APIs, including API security and documentation.</p>
-    </div>
-    <div class="course-card">
-      <h2>Deployment and DevOps</h2>
-      <p>Learn how to deploy and manage applications, including containerization, continuous integration, and continuous deployment.</p>
-    </div>
-
-    <!-- Advanced Courses -->
-    <div class="course-card">
-      <h2>Advanced JavaScript Topics</h2>
-      <p>Learn advanced JavaScript topics, including async/await, generators, and functional programming.</p>
-    </div>
-    <div class="course-card">
-      <h2>Machine Learning and AI</h2>
-      <p>Learn the basics of machine learning and AI, including supervised and unsupervised learning, neural networks, and deep learning.</p>
-    </div>
-    <div class="course-card">
-      <h2>Cybersecurity</h2>
-      <p>Learn the basics of cybersecurity, including security principles, threat analysis, and vulnerability assessment.</p>
-    </div>
-
-    <!-- Capstone Project -->
-    <div class="course-card">
-      <h2>Capstone Project</h
-<p>Apply the skills and knowledge learned throughout the program to build a comprehensive project, including a web application, mobile app, or machine learning model.</p>
-    </div>
- </div>
+<div class="course-table">
+  <table>
+    <thead>
+      <tr>
+        <th>Course Category</th>
+        <th>Course Title</th>
+        <th>Course Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Beginner Courses -->
+      <tr class="course-card">
+        <td>Beginner</td>
+        <td>Introduction to Programming</td>
+        <td>Learn the basics of programming, including data types, variables, control structures, and functions.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Beginner</td>
+        <td>HTML/CSS</td>
+        <td>Build a strong foundation in HTML and CSS, including semantic HTML, CSS selectors, and responsive design.</td>
+      </tr>
+      <tr class="course-card">
+        <td>JavaScript Basics</td>
+        <td>Learn the fundamentals of JavaScript, including data types, variables, functions, and control structures.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Front-end Development with React</td>
+        <td>Learn how to build reusable UI components with React, including state management and props.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Responsive Web Design</td>
+        <td>Learn how to create responsive web designs using CSS media queries and flexbox.</td>
+      </tr>
+      <tr class="course-card">
+        <td>UI/UX Design Principles</td>
+        <td>Learn the principles of user interface and user experience design, including human-centered design and usability testing.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Introduction to Back-end Development</td>
+        <td>Learn the basics of back-end development, including server-side programming, databases, and API design.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Node.js and Express</td>
+        <td>Learn how to build server-side applications with Node.js and Express, including routing, middleware, and database integration.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Database Management</td>
+        <td>Learn how to design and manage databases, including data modeling, normalization, and querying.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Full-stack Development with React and Node.js</td>
+        <td>Learn how to build full-stack applications with React and Node.js, including authentication and authorization.</td>
+      </tr>
+      <tr class="course-card">
+        <td>API Design and Development</td>
+        <td>Learn how to design and develop RESTful APIs, including API security and documentation.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Deployment and DevOps</td>
+        <td>Learn how to deploy and manage applications, including containerization, continuous integration, and continuous deployment.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Advanced JavaScript Topics</td>
+        <td>Learn advanced JavaScript topics, including async/await, generators, and functional programming.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Machine Learning and AI</td>
+        <td>Learn the basics of machine learning and AI, including supervised and unsupervised learning, neural networks, and deep learning.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Cybersecurity</td>
+        <td>Learn the basics of cybersecurity, including security principles, threat analysis, and vulnerability assessment.</td>
+      </tr>
+      <tr class="course-card">
+        <td>Capstone Project</td>
+        <td>Apply the skills and knowledge learned throughout the program to build a comprehensive project, including a web application, mobile app, or machine learning model.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
  
   <section class="hero">
     <h2><b>HTML Mastery Course</b></h2>
