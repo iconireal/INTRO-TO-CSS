@@ -75,11 +75,6 @@
 
     .container section {
     display: none;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
     }
 
     .container section.active { 
@@ -95,16 +90,6 @@
       border-radius: 5px;
       cursor: pointer;
      }
-
-      .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 2rem;
-      background: var(--section-bg);
-      box-shadow: 0 0 15px rgba(0,0,0,0.05);
-      margin-top: 2rem;
-      border-radius: 8px;
-      }
    
     h2 {
       color: #7A288A;
@@ -868,29 +853,36 @@ Width and Height
     </p>
   </footer>
    <script>
-           document.addEventListener("DOMContentLoaded", function () {
+           window.onload = function () {
     const modules = ["module1", "module2", "module3", "module4", "module5", "module6"];
     let current = 0;
 
-    // Show only the first module
-    document.getElementById(modules[current]).classList.add("active");
+    // Show only first module
+    const first = document.getElementById(modules[current]);
+    if (first) first.classList.add("active");
 
+    // Add Next buttons
     modules.forEach((id, index) => {
       if (index < modules.length - 1) {
-        const nextBtn = document.createElement("button");
-        nextBtn.textContent = "Next";
-        nextBtn.className = "next-btn";
+        const btn = document.createElement("button");
+        btn.textContent = "Next";
+        btn.className = "next-btn";
 
-        nextBtn.onclick = function () {
-          document.getElementById(modules[index]).classList.remove("active");
-          document.getElementById(modules[index + 1]).classList.add("active");
-          window.scrollTo(0, 0);
+        btn.onclick = function () {
+          const currentSection = document.getElementById(modules[index]);
+          const nextSection = document.getElementById(modules[index + 1]);
+          if (currentSection && nextSection) {
+            currentSection.classList.remove("active");
+            nextSection.classList.add("active");
+            window.scrollTo(0, 0);
+          }
         };
 
-        document.getElementById(id).appendChild(nextBtn);
+        const section = document.getElementById(id);
+        if (section) section.appendChild(btn);
       }
     });
-  });
+  };
 
        // Set the target date and time for the countdown
 const targetDate = new Date('October 10, 2025 00:00:00').getTime();
