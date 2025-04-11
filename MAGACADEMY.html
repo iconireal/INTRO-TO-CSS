@@ -66,13 +66,14 @@
     }
 
     .hero {
+      display: block;
       padding: 4rem 2rem;
       background-color: white;
       color: black;
       text-align: center;
     }
 
-    section {
+    section: not(.hero) {
     display: none;
     padding: 20px;
     background: #fff;
@@ -854,43 +855,7 @@ Width and Height
     </p>
   </footer>
    <script>
-
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const modules = ["module1", "module2", "module3", "module4", "module5", "module6"];
-    let current = 0;
-
-    // Hide all modules initially
-    modules.forEach((id, index) => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.style.display = index === 0 ? "block" : "none";
-      }
-    });
-
-    // Add "Next" button at end of each module
-    modules.forEach((id, index) => {
-      if (index < modules.length - 1) {
-        const btn = document.createElement("button");
-        btn.textContent = "Next";
-        btn.style.marginTop = "20px";
-        btn.style.padding = "10px 20px";
-        btn.style.backgroundColor = "#7A288A";
-        btn.style.color = "white";
-        btn.style.border = "none";
-        btn.style.borderRadius = "5px";
-        btn.style.cursor = "pointer";
-        btn.onclick = function () {
-          document.getElementById(modules[index]).style.display = "none";
-          document.getElementById(modules[index + 1]).style.display = "block";
-          window.scrollTo(0, 0);
-        };
-        document.getElementById(id).appendChild(btn);
-      }
-    });
-  });
-
-    
+  
        // Set the target date and time for the countdown
 const targetDate = new Date('October 10, 2025 00:00:00').getTime();
 
@@ -926,6 +891,40 @@ setInterval(() => {
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+         document.addEventListener("DOMContentLoaded", function () {
+    const modules = ["module1", "module2", "module3", "module4", "module5", "module6"];
+    let current = 0;
+
+    // Hide all modules initially
+    modules.forEach((id, index) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.style.display = index === 0 ? "block" : "none";
+      }
+    });
+
+    // Add "Next" button at end of each module
+    modules.forEach((id, index) => {
+      if (index < modules.length - 1) {
+        const btn = document.createElement("button");
+        btn.textContent = "Next";
+        btn.style.marginTop = "20px";
+        btn.style.padding = "10px 20px";
+        btn.style.backgroundColor = "#7A288A";
+        btn.style.color = "white";
+        btn.style.border = "none";
+        btn.style.borderRadius = "5px";
+        btn.style.cursor = "pointer";
+        btn.onclick = function () {
+          document.getElementById(modules[index]).style.display = "none";
+          document.getElementById(modules[index + 1]).style.display = "block";
+          window.scrollTo(0, 0);
+        };
+        document.getElementById(id).appendChild(btn);
+      }
+    });
+  });      
 </script>
 </body>
 </html>
