@@ -154,42 +154,16 @@
       <i class="fas fa-graduation-cap" style="color: White;"></i>
       <span class="logo-text"><strong><h1>Mango Groove Academy</h1></strong></span>
     </div>
-    <nav id="navbar" class="hidden">
+    <nav>
   <div>
-    <a href="#dashboard">Dashboard</a>
-    <a href="#module1">Module 1</a>
-    <a href="#module2">Module 2</a>
-    <a href="#module3">Module 3</a>
-    <a href="#module4">Module 4</a>
-    <a href="#module5">Module 5</a>
-    <a href="#module6">Module 6</a>
+    <a href="#module1">Module1</a>
+    <a href="#module2">Module2</a>
+    <a href="#module3">Module3</a>
+    <a href="#module4">Module4</a>
+    <a href="#module5">Module5</a>
+    <a href="#module6">Module6</a>
   </div>
-  <div>
-    <a href="#profile">Profile</a>
-    <a href="#" onclick="logout()">Logout</a>
-  </div>
-</nav>
-
-   <section id="auth">
-  <h2>Register / Sign In</h2>
-  <input type="text" id="username" placeholder="Full Name" required />
-  <input type="email" id="email" placeholder="Email" required />
-  <input type="password" id="password" placeholder="Password" required />
-  <button onclick="registerUser()">Register</button>
-  <button onclick="loginUser()">Sign In</button>
-   </section>
-
-   <section id="dashboard" class="dashboard hidden">
-  <h2>Welcome to Your Dashboard</h2>
-  <p>Explore your modules and track your progress.</p>
-   </section>
-   <section id="profile" class="dashboard hidden">
-  <h2>User Profile</h2>
-  <p><strong>Name:</strong> <span id="user-name"></span></p>
-  <p><strong>Email:</strong> <span id="user-email"></span></p>
-  <p><strong>Icon:</strong> <span>👤</span></p>
-   </section>
-   
+    </nav>
   </header>
   <section class="hero">
     <h2><b>HTML Mastery Course</b></h2>
@@ -209,7 +183,7 @@
   </section>
 
   <div class="container">
-  <section id="module1" class="dashboard hidden">
+  <section id="module1">
  
     <h2>Module 1: Introduction to HTML</h2>
       <p>
@@ -770,7 +744,7 @@ Width and Height
     </p>
   </section>
 
-    <section id="module2" class="dashboard hidden">
+    <section id="module2">
       <h2>Module 2: HTML Elements</h2>
       <ul>
         <li>Headings, Paragraphs, Links</li>
@@ -787,7 +761,7 @@ Width and Height
 </p><hr><p><a href="https://youtu.be/yMX901oVtn8?si=DTPjT38ChuBTMUn3" target="_blank" style="color: #7A288A; font-weight: bold;">Go watch-Vital info on HTML attributes in 2minutes 17s-Do yourself a favor to return and continue your study</a></p>
      </section>
 
-    <section id="module3" class="dashboard hidden">
+    <section id="module3">
       <h2>Module 3: HTML Forms</h2>     
       <ul>
         <li>Form elements</li>
@@ -806,7 +780,7 @@ Width and Height
 </p>
     </section>
 
-    <section id="module4" class="dashboard hidden">
+    <section id="module4">
       <h2>Module 4: HTML5 Features</h2>
       <ul>
         <li>Semantic elements</li>
@@ -823,7 +797,7 @@ Width and Height
 </p>
    </section>
 
-    <section id="module5" class="dashboard hidden">
+    <section id="module5">
       <h2>Module 5: Best Practices</h2>
       <ul>
         <li>Semantic HTML</li>
@@ -845,7 +819,7 @@ Width and Height
 </p>
    </section>
 
-    <section id="module6" class="dashboard hidden">
+    <section id="module6">
       <h2>Module 6: HTML Project</h2>
       <p>Build a simple multi-page website using everything you've learned.</p>
       <ul>
@@ -867,43 +841,6 @@ Width and Height
     </p>
   </footer>
    <script>
-         
-  function registerUser() {
-    const name = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    const pass = document.getElementById('password').value;
-    if (name && email && pass) {
-      localStorage.setItem('user', JSON.stringify({ name, email }));
-      showDashboard();
-    } else {
-      alert("Please fill all fields.");
-    }
-  }
-
-  function loginUser() {
-    const email = document.getElementById('email').value;
-    const stored = JSON.parse(localStorage.getItem('user'));
-    if (stored && stored.email === email) {
-      showDashboard();
-    } else {
-      alert("User not found. Please register.");
-    }
-  }
-
-  function showDashboard() {
-    document.getElementById('auth').classList.add('hidden');
-    document.getElementById('navbar').classList.remove('hidden');
-    document.getElementById('dashboard').classList.remove('hidden');
-    const user = JSON.parse(localStorage.getItem('user'));
-    document.getElementById('user-name').textContent = user.name;
-    document.getElementById('user-email').textContent = user.email;
-  }
-
-  function logout() {
-    localStorage.removeItem('user');
-    location.reload();
-  }
-
        // Set the target date and time for the countdown
 const targetDate = new Date('October 10, 2025 00:00:00').getTime();
 
