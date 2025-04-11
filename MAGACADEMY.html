@@ -853,36 +853,26 @@ Width and Height
     </p>
   </footer>
    <script>
-           window.onload = function () {
-    const modules = ["module1", "module2", "module3", "module4", "module5", "module6"];
-    let current = 0;
+           document.addEventListener("DOMContentLoaded", function () {
+      const modules = ["module1", "module2", "module3"];
 
-    // Show only first module
-    const first = document.getElementById(modules[current]);
-    if (first) first.classList.add("active");
+      modules.forEach((id, index) => {
+        if (index < modules.length - 1) {
+          const btn = document.createElement("button");
+          btn.textContent = "Next";
+          btn.className = "next-btn";
 
-    // Add Next buttons
-    modules.forEach((id, index) => {
-      if (index < modules.length - 1) {
-        const btn = document.createElement("button");
-        btn.textContent = "Next";
-        btn.className = "next-btn";
-
-        btn.onclick = function () {
-          const currentSection = document.getElementById(modules[index]);
-          const nextSection = document.getElementById(modules[index + 1]);
-          if (currentSection && nextSection) {
-            currentSection.classList.remove("active");
-            nextSection.classList.add("active");
+          btn.onclick = function () {
+            document.getElementById(modules[index]).classList.remove("active");
+            document.getElementById(modules[index + 1]).classList.add("active");
             window.scrollTo(0, 0);
-          }
-        };
+          };
 
-        const section = document.getElementById(id);
-        if (section) section.appendChild(btn);
-      }
+          const section = document.getElementById(id);
+          section.appendChild(btn);
+        }
+      });
     });
-  };
 
        // Set the target date and time for the countdown
 const targetDate = new Date('October 10, 2025 00:00:00').getTime();
