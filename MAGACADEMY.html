@@ -858,7 +858,30 @@ Width and Height
     </p>
   </footer>
    <script>
-  
+           document.addEventListener("DOMContentLoaded", function () {
+    const modules = ["module1", "module2", "module3", "module4", "module5", "module6"];
+    let current = 0;
+
+    // Show only the first module
+    document.getElementById(modules[current]).classList.add("active");
+
+    modules.forEach((id, index) => {
+      if (index < modules.length - 1) {
+        const nextBtn = document.createElement("button");
+        nextBtn.textContent = "Next";
+        nextBtn.className = "next-btn";
+
+        nextBtn.onclick = function () {
+          document.getElementById(modules[index]).classList.remove("active");
+          document.getElementById(modules[index + 1]).classList.add("active");
+          window.scrollTo(0, 0);
+        };
+
+        document.getElementById(id).appendChild(nextBtn);
+      }
+    });
+  });
+
        // Set the target date and time for the countdown
 const targetDate = new Date('October 10, 2025 00:00:00').getTime();
 
@@ -893,31 +916,7 @@ setInterval(() => {
     
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-         document.addEventListener("DOMContentLoaded", function () {
-    const modules = ["module1", "module2", "module3", "module4", "module5", "module6"];
-    let current = 0;
-
-    // Show only the first module
-    document.getElementById(modules[current]).classList.add("active");
-
-    modules.forEach((id, index) => {
-      if (index < modules.length - 1) {
-        const nextBtn = document.createElement("button");
-        nextBtn.textContent = "Next";
-        nextBtn.className = "next-btn";
-
-        nextBtn.onclick = function () {
-          document.getElementById(modules[index]).classList.remove("active");
-          document.getElementById(modules[index + 1]).classList.add("active");
-          window.scrollTo(0, 0);
-        };
-
-        document.getElementById(id).appendChild(nextBtn);
-      }
-    });
-  });
+  }        
 </script>
 </body>
 </html>
