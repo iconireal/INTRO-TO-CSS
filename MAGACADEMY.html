@@ -856,6 +856,10 @@ Width and Height
            document.addEventListener("DOMContentLoaded", function () {
       const modules = ["module1", "module2", "module3" "module4" "module5" "module6"];
 
+            if (index === 0) {
+  el.classList.add("active");
+            }
+            
       modules.forEach((id, index) => {
         if (index < modules.length - 1) {
           const btn = document.createElement("button");
