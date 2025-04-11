@@ -96,16 +96,6 @@
       cursor: pointer;
      }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 2rem;
-      background: var(--section-bg);
-      box-shadow: 0 0 15px rgba(0,0,0,0.05);
-      margin-top: 2rem;
-      border-radius: 8px;
-    }
-
     h2 {
       color: #7A288A;
       margin-top: 2rem;
@@ -184,12 +174,12 @@
       <span class="logo-text"><strong><h1>Mango Groove Academy</h1></strong></span>
     </div>
     <nav>
-      <a href="#module1">Intro</a>
-      <a href="#module2">Elements</a>
-      <a href="#module3">Forms</a>
-      <a href="#module4">HTML5</a>
-      <a href="#module5">Best Practices</a>
-      <a href="#module6">Project</a>
+      <a href="#module1">Module 1</a>
+      <a href="#module2">Module 2</a>
+      <a href="#module3">Module 3</a>
+      <a href="#module4">Module 4</a>
+      <a href="#module5">Module 5</a>
+      <a href="#module6">Module 6</a>
     </nav>
   </header>
   <section class="hero">
@@ -909,35 +899,25 @@ setInterval(() => {
     const modules = ["module1", "module2", "module3", "module4", "module5", "module6"];
     let current = 0;
 
-    // Hide all modules initially
-    modules.forEach((id, index) => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.style.display = index === 0 ? "block" : "none";
-      }
-    });
+    // Show only the first module
+    document.getElementById(modules[current]).classList.add("active");
 
-    // Add "Next" button at end of each module
     modules.forEach((id, index) => {
       if (index < modules.length - 1) {
-        const btn = document.createElement("button");
-        btn.textContent = "Next";
-        btn.style.marginTop = "20px";
-        btn.style.padding = "10px 20px";
-        btn.style.backgroundColor = "#7A288A";
-        btn.style.color = "white";
-        btn.style.border = "none";
-        btn.style.borderRadius = "5px";
-        btn.style.cursor = "pointer";
-        btn.onclick = function () {
-          document.getElementById(modules[index]).style.display = "none";
-          document.getElementById(modules[index + 1]).style.display = "block";
+        const nextBtn = document.createElement("button");
+        nextBtn.textContent = "Next";
+        nextBtn.className = "next-btn";
+
+        nextBtn.onclick = function () {
+          document.getElementById(modules[index]).classList.remove("active");
+          document.getElementById(modules[index + 1]).classList.add("active");
           window.scrollTo(0, 0);
         };
-        document.getElementById(id).appendChild(btn);
+
+        document.getElementById(id).appendChild(nextBtn);
       }
     });
-  });      
+  });
 </script>
 </body>
 </html>
