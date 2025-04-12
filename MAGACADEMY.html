@@ -26,65 +26,56 @@
     }
 
     header {
-      background-color: #7A288A;
-      color: #fff;
-      padding: 20px 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      font-family: Arial, sans-serif;
-    }
-
-    .logo i {
-      align-item: flex-end;
-      font-size: 36px;
-      margin-right: 10px;
-    }
-
-    .logo-text {
-      font-size: 24px;
-      font-weight: bold;
-      color: #fff;
-    }
-
-     .student-icons {
-  position: relative;
-      font-size: 36px;
+  background-color: #7A288A;
+  color: #fff;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-.student-icons .fa-handshake {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.header-left {
+  display: flex;
+  align-items: center;
+  flex: 1;
 }
 
-.student-icons .fa-laptop {
-  position: absolute;
-  top: 70%;
-  left: 70%;
-  transform: translate(-50%, -50%);
+.header-left h1 {
+  font-size: 22px;
+  margin-left: 10px;
 }
 
-    nav a {
-      /* Adjust the value as needed to increase or decrease spacing */
-      /* Add margin to create space between navigation items */
-      position: relative;
-      left: 0;
-      top: 0;
-      margin: 5px 50px;
-      display: block;
-      margin-bottom: 10px;
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.logo i {
+  font-size: 36px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+}
+
+nav.header-right {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+nav.header-right a {
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
 
              .update-notice {
   text-align: center;
@@ -186,28 +177,25 @@
 </head>
 <body>
   <header>
-   
-    <div class="logo">
-      <i class="fas fa-graduation-cap" style="color: White;"></i>
-      <span class="logo-text"><strong><h1>Mango Groove Academy</h1></strong></span>
-    </div>
-     <div class="student-icons">
-  <i class="fa-solid fa-user-graduate"></i>
-  <i class="fa-solid fa-handshake"></i>
-  <i class="fa-solid fa-user-graduate"></i>
-  <i class="fa-solid fa-laptop"></i>
-     </div><br>
-    <nav>
-  <div>
-    <a href="#module1">Module1</a>
-    <a href="#module2">Module2</a>
-    <a href="#module3">Module3</a>
-    <a href="#module4">Module4</a>
-    <a href="#module5">Module5</a>
-    <a href="#module6">Module6</a>
+  <div class="header-left">
+    <i class="fas fa-graduation-cap"></i>
+    <h1>Mango Groove Academy</h1>
   </div>
-    </nav>
-  </header>
+
+  <div class="logo">
+    <i class="fas fa-laptop-code"></i>
+    <span class="logo-text">Mango Groove</span>
+  </div>
+
+  <nav class="header-right">
+    <a href="#">Module1</a>
+    <a href="#">Module2</a>
+    <a href="#">Module3</a>
+    <a href="#">Module4</a>
+    <a href="#">Module5</a>
+    <a href="#">Module6</a>
+  </nav>
+</header>
  
  <section class="update-notice" aria-label="Free access expiration notice">
   <p>Free Access to Mango Groove Academy Expires on; <time id="expiration-date" datetime="2025-10-10">October 10, 2025</time></p>
@@ -494,7 +482,7 @@
 </tr>
 </table>
     <p>Marquee's Work</p>
-<marquee scrollamount="2" bgcolor="SkyBlue">
+<marquee scrollamount="2" bgcolor="white">
    <table border="1">
      Everything here scrolls from left to right slowly
 <tr>
