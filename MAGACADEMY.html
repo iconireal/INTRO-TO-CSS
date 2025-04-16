@@ -44,7 +44,7 @@
             height: 200px;
             border-radius: 50%;
             background-image: linear-gradient(to right, #C7B8EA, #B784DC, #9467B1, #7A288A);
-            animation: rotate 5s linear infinite;
+            animation: rotate 9s linear infinite;
         }
 
         @keyframes rotate {
@@ -53,31 +53,6 @@
             }
             100% {
                 transform: rotate(360deg);
-            }
-        }
-
-        .logo-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1001;
-        }
-
-        .logo {
-            width: 100px;
-            height: 100px;
-            animation: fade-in-rotate 3s ease-in-out;
-        }
-
-        @keyframes fade-in-rotate {
-            0% {
-                opacity: 0;
-                transform: rotate(0deg) scale(0.5);
-            }
-            100% {
-                opacity: 1;
-                transform: rotate(360deg) scale(1);
             }
         }
 
@@ -240,11 +215,6 @@ nav.header-right a {
 <body>
         <div class="loading-container" id="loading-container">
         <div class="cloud"></div>
-        <div class="logo-container">
-            <img src="academy-cap-logo.png" alt="Academy Cap Logo" class="logo">
-        </div>
-    </div>
-    <div class="container" id="main-container" style="display: none;">
   <header>
   <div class="header-left">
     <i class="fas fa-graduation-cap"></i>
@@ -261,7 +231,7 @@ nav.header-right a {
 </header>
  
  <section class="update-notice" aria-label="Free access expiration notice">
-  <p>Free Access to Mango Groov Academy Expires on; <time id="expiration-date" datetime="2025-10-10">October 10, 2025</time></p>
+  <p>Free Access to Mango Groove Academy Expires on; <time id="expiration-date" datetime="2025-10-10">October 10, 2025</time></p>
   <div class="countdown" aria-label="Countdown to expiration"></div>
  </section>
 
