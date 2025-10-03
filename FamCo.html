@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Street Shopping | Official Website</title>
+    
+    <script src="https://js.stripe.com/v3"></script>
+
+    <style>
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Typography and Buttons */
+        h1, h2, h3 {
+            margin-bottom: 0.5em;
+            color: #2c3e50;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: none;
+            text-align: center;
+        }
+
+        .button.primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .button.primary:hover {
+            background-color: #2980b9;
+        }
+
+        .button.secondary {
+            background-color: #ecf0f1;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        /* Header and Navigation */
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 5px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #3498db;
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 5%;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            background: linear-gradient(rgba(52, 152, 219, 0.1), white);
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .product-card .price {
+            font-size: 1.2em;
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Media Section */
+        .video-embed {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .video-embed iframe {
+            max-width: 100%;
+            width: 560px; /* Standard YouTube width */
+            height: 315px; /* Standard YouTube height */
+        }
+        
+        /* Ensure responsive video embed */
+        @media (max-width: 768px) {
+            .video-embed iframe {
+                width: 100%;
+                height: 200px; 
+            }
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Forms */
+        .contact-form input,
+        .contact-form textarea,
+        #payment-form input,
+        #auth-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        #payment-form label, #auth-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+
+        /* Modals (Hidden by default) */
+        .modal {
+            position: fixed;
+            z-index: 200;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Will be set to 'flex' by JS when active */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+            text-decoration: none;
+        }
+
+        /* Stripe Elements container */
+        #card-element {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            background: white;
+        }
+
+        .form-status {
+            margin-top: 15px;
+            font-weight: bold;
+            color: green;
+        }
+        
+        .form-status.error {
+            color: red;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+    </head>
+<body>
+
+    <header>
+        <div class="logo">Street Shopping™</div>
+        <nav>
+            <a href="#books">Books</a>
+            <a href="#cosmetics">Cosmetics</a>
+            <a href="#media">Media</a>
+            <a href="#contact">Contact</a>
+            <a href="#" id="auth-link-signin" class="auth-link">Sign In</a>
+            <a href="#" id="auth-link-signout" class="auth-link" style="display: none;">Sign Out</a>
+        </nav>
+    </header>
+
+    <section id="hero" class="hero">
+        <h1>Welcome to My Official Store & Gallery</h1>
+        <p>Explore my latest books, cosmetic products, and personal media collections.</p>
+        <a href="#books" class="button primary">Shop Now</a>
+    </section>
+
+    <section id="books" class="product-section">
+        <h2>My Books Collection</h2>
+        <div class="product-grid">
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Book+Cover" alt="The Secret Title">
+                <h3>The Secret Title</h3>
+                <p class="price">$25.00</p>
+                <p>A gripping thriller about a mysterious ancient artifact. Limited edition signed copies available!</p>
+                <button class="buy-button" data-product-name="The Secret Title" data-price="2500">Buy Now</button>
+            </div>
+            
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Novel+2" alt="A Time for Change">
+                <h3>A Time for Change</h3>
+                <p class="price">$19.50</p>
+                <p>An inspirational memoir detailing my journey as a creator.</p>
+                <button class="buy-button" data-product-name="A Time for Change" data-price="1950">Buy Now</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="cosmetics" class="product-section">
+        <h2>Cosmetics Line</h2>
+        <div class="product-grid">
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Lipstick+Shade+4" alt="Velvet Lipstick">
+                <h3>Velvet Lipstick (Shade #4)</h3>
+                <p class="price">$18.99</p>
+                <p>Long-lasting matte finish with a hydrating feel. Vegan and cruelty-free.</p>
+                <button class="buy-button" data-product-name="Velvet Lipstick #4" data-price="1899">Buy Now</button>
+            </div>
+            
+            <div class="product-card">
+                <img src="https://via.placeholder.com/300x200?text=Moisturizer" alt="Daily Moisturizer">
+                <h3>Daily Moisturizer</h3>
+                <p class="price">$32.00</p>
+                <p>Hydrating and gentle, perfect for all skin types.</p>
+                <button class="buy-button" data-product-name="Daily Moisturizer" data-price="3200">Buy Now</button>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="media" class="media-section">
+        <h2>Video & Photo Gallery</h2>
+
+        <div class="media-item video-embed">
+            <h3>Latest Vlog: My Morning Routine</h3>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <div class="photo-grid">
+            <img src="https://via.placeholder.com/200x200?text=Photo+1" alt="Personal Photo 1">
+            <img src="https://via.placeholder.com/200x200?text=Photo+2" alt="Personal Photo 2">
+            <img src="https://via.placeholder.com/200x200?text=Photo+3" alt="Personal Photo 3">
+        </div>
+    </section>
+
+    <section id="contact" class="form-section">
+        <h2>Get In Touch</h2>
+        <form action="https://formspree.io/f/{your-contact-form-hashid}" method="POST" class="contact-form">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="_replyto" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+            <button type="submit" class="button primary">Send Message</button>
+            <p class="form-status" id="contact-status"></p>
+        </form>
+    </section>
+
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3>Checkout for: <span id="checkout-product-name"></span></h3>
+            <p>Price: <span id="checkout-product-price"></span></p>
+
+            <form id="payment-form">
+                <input type="hidden" name="_action" value="https://formspree.io/f/{your-payment-form-hashid}">
+                <input type="hidden" id="form-price-input" name="price" value=""> <input type="hidden" id="form-product-input" name="product_name" value="">
+                
+                <label for="checkout-email">Email Address</label>
+                <input type="email" id="checkout-email" name="email" required>
+
+                <label>Card Details</label>
+                <div id="card-element">
+                    </div>
+
+                <button id="pay-button" class="button primary">Pay & Checkout</button>
+                <p class="form-status" id="payment-status"></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="auth-modal-title">Sign In / Sign Up</h3>
+            <p id="auth-modal-message">Please sign in or create an account to proceed to checkout.</p>
+            <form id="auth-form">
+                <input type="email" id="auth-email" placeholder="Email" required>
+                <input type="password" id="auth-password" placeholder="Password" required>
+                <button type="submit" class="button primary">Sign In</button>
+                <button type="button" id="toggle-signup" class="button secondary">Need an Account? Sign Up</button>
+                <p class="form-status" id="auth-status"></p>
+            </form>
+        </div>
+    </div>
+
+    <footer>&copy; 2025 West Africa Business. All Rights Reserved.</footer>
+    
+    <script>
+        // --- Global Variables and Stripe Setup ---
+        // Initialize Stripe with your Public Key
+        // REPLACE 'pk_test_YOUR_STRIPE_PUBLISHABLE_KEY' with your actual Public Key
+        const stripe = Stripe('pk_test_YOUR_STRIPE_PUBLISHABLE_KEY');
+        const elements = stripe.elements();
+        const cardElement = elements.create('card');
+
+        // Get Modal Elements
+        const paymentModal = document.getElementById('payment-modal');
+        const authModal = document.getElementById('auth-modal');
+        const closeButtons = document.querySelectorAll('.close-button');
+
+        // Get Forms
+        const paymentForm = document.getElementById('payment-form');
+        const contactForm = document.querySelector('.contact-form');
+        const authForm = document.getElementById('auth-form');
+        
+        // State Variables
+        let isLoggedIn = false; // State variable
+        let pendingProduct = null; // Stores product data when user is sent to sign-in
+
+        // --- 1. Formspree Contact Form Submission ---
+        contactForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const statusElement = document.getElementById('contact-status');
+            statusElement.textContent = 'Sending...';
+            statusElement.classList.remove('error');
+
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: contactForm.method,
+                    body: new FormData(contactForm),
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    statusElement.textContent = 'Message sent successfully! I will be in touch soon.';
+                    contactForm.reset();
+                } else {
+                    const result = await response.json();
+                    statusElement.textContent = `Oops! Error: ${result.errors ? result.errors.map(e => e.message).join(', ') : 'There was an issue.'}`;
+                    statusElement.classList.add('error');
+                }
+            } catch (error) {
+                statusElement.textContent = 'Network error. Please try again.';
+                statusElement.classList.add('error');
+            }
+        });
+
+
+        // --- 2. Modal Controls (Payment and Auth) ---
+
+        // Attach Stripe Elements to the Payment Modal
+        document.addEventListener('DOMContentLoaded', () => {
+            cardElement.mount('#card-element');
+        });
+
+        // FUNCTION TO OPEN PAYMENT MODAL
+        function openPaymentModal(product) {
+            const priceCents = product.price;
+            const priceDollars = (priceCents / 100).toFixed(2);
+
+            // Update modal content
+            document.getElementById('checkout-product-name').textContent = product.name;
+            document.getElementById('checkout-product-price').textContent = `$${priceDollars}`;
+            
+            // Update hidden form fields for Formspree/Stripe
+            document.getElementById('form-price-input').value = priceCents;
+            document.getElementById('form-product-input').value = product.name;
+
+            paymentModal.style.display = 'flex';
+            document.getElementById('payment-status').textContent = '';
+            document.getElementById('payment-status').classList.remove('error');
+        }
+
+        // MODIFIED: Open Payment Modal OR Auth Modal when a Buy Button is clicked
+        document.querySelectorAll('.buy-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const product = {
+                    name: this.dataset.productName,
+                    price: this.dataset.price
+                };
+
+                if (isLoggedIn) {
+                    // User is signed in, proceed to payment
+                    openPaymentModal(product);
+                } else {
+                    // User is NOT signed in, gate the checkout
+                    pendingProduct = product; // Store the product data for after login
+                    authModal.style.display = 'flex';
+                    document.getElementById('auth-modal-title').textContent = 'Sign In to Buy';
+                    document.getElementById('auth-modal-message').textContent = 'Please sign in or create an account to finalize your purchase.';
+                    document.getElementById('auth-status').textContent = '';
+                    document.getElementById('auth-status').classList.remove('error');
+                }
+            });
+        });
+
+        // Open Auth Modal (for navigation link)
+        document.getElementById('auth-link-signin').addEventListener('click', (e) => {
+            e.preventDefault();
+            pendingProduct = null; // Clear pending product if clicking nav link
+            authModal.style.display = 'flex';
+            document.getElementById('auth-modal-title').textContent = 'Sign In / Sign Up';
+            document.getElementById('auth-modal-message').textContent = 'Welcome back! Sign in or create a new account.';
+            document.getElementById('auth-status').textContent = '';
+            document.getElementById('auth-status').classList.remove('error');
+        });
+
+        // Close Modals
+        closeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                paymentModal.style.display = 'none';
+                authModal.style.display = 'none';
+            });
+        });
+        window.addEventListener('click', (event) => {
+            if (event.target === paymentModal) paymentModal.style.display = 'none';
+            if (event.target === authModal) authModal.style.display = 'none';
+        });
+
+
+        // --- 3. Formspree/Stripe Payment Submission ---
+        paymentForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const payButton = document.getElementById('pay-button');
+            const statusElement = document.getElementById('payment-status');
+            const formAction = paymentForm.querySelector('input[name="_action"]').value;
+
+            payButton.disabled = true;
+            statusElement.textContent = 'Processing payment...';
+            statusElement.classList.remove('error');
+
+            try {
+                // 1. Create a secure token from the card data
+                const { token, error: tokenError } = await stripe.createToken(cardElement);
+
+                if (tokenError) {
+                    // Show error to the user
+                    statusElement.textContent = tokenError.message;
+                    statusElement.classList.add('error');
+                    payButton.disabled = false;
+                    return;
+                }
+
+                // 2. Add the token and email to the form data
+                const formData = new FormData(paymentForm);
+                formData.append('stripeToken', token.id);
+
+                // 3. Send the form data to Formspree
+                const response = await fetch(formAction, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    statusElement.textContent = 'Payment successful! Thank you for your order.';
+                    paymentForm.reset();
+                    cardElement.clear();
+                    payButton.textContent = 'Payment Complete';
+                    
+                    setTimeout(() => paymentModal.style.display = 'none', 3000);
+                } else {
+                    const result = await response.json();
+                    const errorMsg = result.error || (result.errors ? result.errors.map(e => e.message).join(', ') : 'Check your card details.');
+                    statusElement.textContent = `Payment failed: ${errorMsg}`;
+                    statusElement.classList.add('error');
+                    payButton.disabled = false;
+                    payButton.textContent = 'Try Again';
+                }
+            } catch (error) {
+                statusElement.textContent = 'Network error during payment. Please check your connection.';
+                statusElement.classList.add('error');
+                payButton.disabled = false;
+                payButton.textContent = 'Try Again';
+            }
+        });
+
+
+        // --- 4. User Authentication Logic (MODIFIED) ---
+
+        function updateAuthUI() {
+            const signInLink = document.getElementById('auth-link-signin');
+            const signOutLink = document.getElementById('auth-link-signout');
+
+            if (isLoggedIn) {
+                signInLink.style.display = 'none';
+                signOutLink.style.display = 'inline-block';
+            } else {
+                signInLink.style.display = 'inline-block';
+                signOutLink.style.display = 'none';
+            }
+        }
+
+        // Login/Signup Submission Handler (SIMULATION)
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const statusElement = document.getElementById('auth-status');
+            
+            // SIMULATION: If email is provided, assume successful login
+            if (email) {
+                isLoggedIn = true;
+                updateAuthUI();
+                authModal.style.display = 'none';
+                statusElement.textContent = 'Welcome back!';
+                statusElement.classList.remove('error');
+                authForm.reset();
+                
+                // *** KEY NEW LOGIC ***
+                // If the user signed in to complete a purchase, open the payment modal now.
+                if (pendingProduct) {
+                    openPaymentModal(pendingProduct);
+                    pendingProduct = null; // Clear the pending product
+                }
+            } else {
+                statusElement.textContent = 'Please enter an email and password.';
+                statusElement.classList.add('error');
+            }
+        });
+
+      // Placeholder Logout
+        document.getElementById('auth-link-signout').addEventListener('click', (e) => {
+            e.preventDefault();
+            isLoggedIn = false;
+            updateAuthUI();
+            alert('You have been signed out.');
+        });
+        
+        // Placeholder Signup Toggle 
+        document.getElementById('toggle-signup').addEventListener('click', () => {
+             const statusElement = document.getElementById('auth-status');
+             statusElement.textContent = 'Account creation logic would run here. For now, try clicking "Sign In" with any email to simulate registration.';
+             statusElement.classList.add('error');
+        });
+
+        // Initial UI setup
+        updateAuthUI();
+    </script>
+    </body>
+</html>
