@@ -705,6 +705,51 @@ date: new Date(Date.now() - 3600000).toLocaleTimeString(), // 1 hour ago
             this.reset();
         });
 
+    document.getElementById('listing-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const mediaInput = document.getElementById('listing-media');
+            // Ensure mediaURLs is correctly generated, defaulting to an empty array if files are null
+            const mediaURLs = Array.from(mediaInput.files || []).slice(0, MAX_MEDIA).map(file => {
+                // Generates the placeholder URL for the feed
+                return file.type.startsWith('image/') ? 'https://via.placeholder.com/100x70?text=Image' : 'https://via.placeholder.com/100x70?text=Video';
+            });
+            
+            const newPost = {
+                id: Date.now(),
+                type: 'Listing',
+                poster: document.getElementById('listing-poster-name').value,
+                location: document.getElementById('listing-location').value,
+                description: document.getElementById('listing-description').value,
+                contact: `Phone: ${document.getElementById('listing-contact-phone').value}` + (document.getElementById('listing-contact-email').value ? `, Email: ${document.getElementById('listing-contact-email').value}` : ''),
+                price: `₦${Number(document.getElementById('listing-price').value).toLocaleString()} (${document.getElementById('listing-type').value})`,
+                size: document.getElementById('listing-size').value,
+                survey: document.getElementById('survey-plan').value,
+                media: mediaURLs,
+                date: new Date().toLocaleTimeString(),
+                comments: []
+            };
+
+            posts.unshift(newPost); // Add to the top of the feed
+            savePosts();
+            renderFeed(); // Explicitly call renderFeed to refresh the display immediately
+            
+            alert(`✅ Success! Listing Posted by ${newPost.poster}. Check the 'Browse Posts' tab.`);
+            
+            // Cleanup and reset the form
+            this.reset();
+            document.getElementById('image-preview').innerHTML = '';
+            document.getElementById('media-count-message').textContent = '';
+            
+            // Re-apply the survey plan visibility logic in case the default reset hides it
+            const surveyPlanGroup = document.getElementById('survey-plan-group');
+            if (document.getElementById('listing-type').value !== 'Sale') {
+                 surveyPlanGroup.style.display = 'none';
+            } else {
+                 surveyPlanGroup.style.display = 'block';
+            }
+        });
+
 document.getElementById('management-form').addEventListener('submit', function(e) {
             e.preventDefault();
             alert(`✅ Success! Property Management Guide request submitted by ${document.getElementById('manager-name').value}. We will contact you soon.`);
