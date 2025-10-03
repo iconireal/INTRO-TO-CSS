@@ -3,131 +3,760 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family and Co Group</title>
+    <title>Nigeria Property Hub - Buy, Rent, Manage</title>
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --bg-light: #f4f7f6;
+            --text-dark: #2c3e50;
+            --gradient-main: linear-gradient(135deg, #3498db, #2ecc71);
+            --gradient-light: linear-gradient(135deg, #d3eafc, #f4fff7);
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #f8f8f8;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        /* --- Header and Navigation --- */
         header {
-            background-color: #ff5733;
+            background: var(--gradient-main);
             color: white;
+            padding: 20px 5%;
             text-align: center;
-            padding: 40px;
-            font-size: 24px;
-            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        nav {
-            background-color: #ff5733;
-            padding: 10px;
+        
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 5px;
+        }
+
+        /* --- Tabs Container --- */
+        .tabs-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .tab-button {
+            flex-grow: 1;
+            padding: 18px;
+            cursor: pointer;
             text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+            background: #fcfcfc;
+            color: var(--text-dark);
+            transition: all 0.3s;
+            border: none;
+            border-right: 1px solid #ecf0f1;
         }
-        nav ul {
-            list-style-type: none;
-            padding: 0;
+
+        .tab-button:last-child {
+            border-right: none;
         }
-        nav ul li {
-            display: inline;
-            margin: 0 15px;
+
+        .tab-button:hover:not(.active) {
+            background: #e9eff1;
         }
-        nav ul li a {
+
+        .tab-button.active {
             color: white;
-            text-decoration: none;
-            font-weight: bold;
+            background: var(--primary-color);
+            box-shadow: inset 0 -4px 0 var(--secondary-color);
         }
-        main {
-            width: 80%;
-            margin: 20px auto;
-            padding: 20px;
+
+        /* --- Content Sections --- */
+        .tab-content {
+            padding: 30px 5%;
         }
-        section {
-            background-color: white;
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        .content-section {
+            display: none;
         }
-        h2 {
-            color: #333;
-        }
-        b {
+
+        .content-section.active {
             display: block;
-            margin-top: 10px;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            border-left: 5px solid var(--secondary-color);
+            padding-left: 10px;
         }
-        li {
-            margin: 5px 0;
+
+        /* --- Forms Styling --- */
+        .form-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: var(--gradient-light);
         }
-        footer {
-            background-color: #333;
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+
+        .button-primary {
+            background: var(--primary-color);
             color: white;
-            text-align: center;
+        }
+
+        .button-primary:hover {
+            background: #2980b9;
+        }
+
+        .button-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .button-secondary:hover {
+            background: #27ae60;
+        }
+
+        .button-danger {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        /* --- Image Preview Grid --- */
+        #image-preview, #property-management-guide {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            border: 1px dashed #ccc;
             padding: 10px;
+            border-radius: 6px;
+            min-height: 100px;
+            align-items: center;
+        }
+        
+        .preview-item {
             position: relative;
-            bottom: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .preview-item .remove-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            padding: 2px 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            line-height: 1;
+            border-radius: 0 0 0 4px;
+        }
+
+        /* --- Payment Plan --- */
+        .payment-plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .plan-card {
+            border: 1px solid var(--secondary-color);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.2);
+        }
+
+        .plan-card h3 {
+            color: var(--secondary-color);
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .plan-card .price-tag {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .plan-card ul {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        
+        .plan-card ul li {
+            padding: 8px 0;
+            border-bottom: 1px dotted #ecf0f1;
+        }
+
+        .plan-card .total-price {
+            font-weight: 700;
+            margin-top: 15px;
+        }
+
+        .plan-card .button {
             width: 100%;
         }
+
+        .info-box {
+            background-color: #f0f7ff;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--text-dark);
+            color: #bdc3c7;
+            margin-top: 40px;
+        }
     </style>
-</head>
+    </head>
 <body>
+
     <header>
-        Family and Co Group
+        <h1>Nigeria Property Hub</h1>
+        <p>Your platform for secure property transactions and management.</p>
     </header>
-    <nav>
-        <ul>
-            <li><a href="#Dishes">Dishes</a></li>
-            <li><a href="#Cooking Tips">Cooking Tips</a></li>
-            <li><a href="#Contact Us">Contact Us</a></li>
-        </ul>
-    </nav>
-    <main>
-        <section id="Dishes">
-            <h2>Menus</h2>
-            <b>Main Menu</b>
-            <ul>
-                <b>Appetizers</b>
-                <li>Fried Plantains ($5)</li>
-                <li>Spicy Meat Pies ($7)</li>
-                <b>Entrees</b>
-                <li>Jollof Rice with Chicken ($15)</li>
-                <li>Grilled Fish with Vegetables ($18)</li>
-                <b>Sides</b>
-                <li>Fried Yam ($4)</li>
-                <li>Coleslaw ($3)</li>
-                <b>Desserts</b>
-                <li>Fruit Salad ($6)</li>
-                <li>Chocolate Cake ($8)</li>
-            </ul>
-            <b>Specials</b>
-            <b>Family and Co Group Combo</b>
-            <p>Choose any entree, side, and drink for ($25)</p>
-            <b>Kids' Meal</b>
-            <p>Chicken or Fish with Fries and a Drink ($10)</p>
-        </section>
-        <section id="Cooking Tips">
-            <h2>Cooking Tips</h2>
-            <b>How to Make the Perfect Jollof Rice</b>
-            <ul>
-                <li>Use long grain rice for the best results</li>
-                <li>Add a splash of tomato paste for extra flavor</li>
-                <li>Don't overcook the rice; it should be slightly firm in the middle</li>
-            </ul>
-        </section>
-        <section id="Contact Us">
-            <h2>Contact Us</h2>
-            <ul>
-              <li>Email: Family@example.com</li>
-              <li>Phone: +123 456 7890</li>
-            </ul>
-        </section>
-    </main>
+
+    <div class="tabs-container">
+        <div class="tab-buttons">
+            <button class="tab-button active" data-tab="renter-request">Renters: Post Request</button>
+            <button class="tab-button" data-tab="seller-listing">Sellers/Agents: List Property</button>
+            <button class="tab-button" data-tab="land-payment">Land: Installment Plans</button>
+        </div>
+
+        <div class="tab-content">
+            
+            <div id="renter-request" class="content-section active">
+                <h2>Post Your Rental Request</h2>
+                <form id="renter-form">
+                    <div class="form-group">
+                        <label for="renter-name">Your Full Name:</label>
+                        <input type="text" id="renter-name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="renter-location">Preferred Location(s) (e.g., Lekki, Abuja FCT):</label>
+                        <input type="text" id="renter-location" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="renter-budget">Maximum Budget (Naira):</label>
+                        <input type="number" id="renter-budget" placeholder="e.g., 500000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="renter-frequency">Preferred Payment Frequency:</label>
+                        <select id="renter-frequency" required>
+                            <option value="">-- Select Frequency --</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="half-yearly">Half-Yearly</option>
+                            <option value="annually">Annually</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="renter-description">Additional Requirements (e.g., number of rooms, amenities):</label>
+                        <textarea id="renter-description" rows="4"></textarea>
+                    </div>
+
+                    <button type="submit" class="button button-primary">Submit Rental Request</button>
+                </form>
+            </div>
+
+            <div id="seller-listing" class="content-section">
+                <h2>List a Property or Request Management Guide</h2>
+                
+                <div class="tab-buttons" style="margin-bottom: 20px;">
+                    <button class="tab-button active" data-subtab="list-property">List Property (Sell/Rent)</button>
+                    <button class="tab-button" data-subtab="management-guide">Request Management Guide</button>
+                </div>
+                
+                <div id="list-property" class="sub-content active">
+                    <form id="listing-form">
+                        <div class="form-group">
+                            <label for="listing-type">Listing Type:</label>
+                            <select id="listing-type" required>
+                                <option value="">-- Select Type --</option>
+                                <option value="sale">For Sale (House/Land)</option>
+                                <option value="rent">For Rent (House/Apartment)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="listing-location">Location (State, City, Area):</label>
+                            <input type="text" id="listing-location" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="listing-price">Price (Naira):</label>
+                            <input type="number" id="listing-price" placeholder="e.g., 25000000" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="listing-size">Size (sqm or Bedrooms/Bathrooms):</label>
+                            <input type="text" id="listing-size" placeholder="e.g., 600sqm or 3 Beds, 2 Baths" required>
+                        </div>
+
+                        <div class="form-group" id="survey-plan-group" style="display: none;">
+                            <label for="survey-plan">Survey Plan / Title Details (Optional):</label>
+                            <input type="text" id="survey-plan" placeholder="Paste link or brief description">
+                            <small>Only necessary for landed properties/sales.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="listing-description">Property Description:</label>
+                            <textarea id="listing-description" rows="5" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Property Media (Max 10 Images/Videos):</label>
+                            <input type="file" id="listing-media" accept="image/*,video/*" multiple onchange="previewMedia(event)">
+                            <div id="image-preview"></div>
+                            <small id="media-count-message"></small>
+                        </div>
+
+                        <button type="submit" class="button button-primary">Submit Listing</button>
+                    </form>
+                </div>
+                
+                <div id="management-guide" class="sub-content">
+                    <form id="management-form">
+                        <div class="form-group">
+                            <p>Get our exclusive **Property Management Guide** for landlords and agents covering tenant screening, rent collection, and maintenance.</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="manager-email">Your Email:</label>
+                            <input type="email" id="manager-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="property-type-manage">Property Type to Manage:</label>
+                            <select id="property-type-manage" required>
+                                <option value="residential">Residential</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="land">Land Banking</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="button button-secondary">Request Guide (Simulated)</button>
+                    </form>
+                    <div id="management-guide-message" class="info-box" style="display: none;"></div>
+                </div>
+            </div>
+
+            <div id="land-payment" class="content-section">
+                <h2>Land Installment Payment Plans</h2>
+                <p>Secure your land across Nigeria with flexible monthly payment options. Prices are illustrative and subject to specific state/location.</p>
+                
+                <div class="form-group">
+                    <label for="land-location">Select Land Location/State (for context):</label>
+                    <select id="land-location">
+                        <option value="lagos">Lagos State (High Demand)</option>
+                        <option value="fct">Abuja FCT (Capital Territory)</option>
+                        <option value="ph">Rivers State (Port Harcourt)</option>
+                        <option value="other">Other 33 States</option>
+                    </select>
+                </div>
+
+                <div class="payment-plan-grid">
+                    <div class="plan-card">
+                        <h3>Starter Plot (50x50)</h3>
+                        <p class="price-tag">Total: N2,400,000</p>
+                        <ul>
+                            <li>**Size:** ~250 sqm (50ft by 50ft)</li>
+                            <li>**Duration:** 24 Months</li>
+                            <li><span class="total-price">Option 1: N100,000 / Month</span></li>
+                            <li>Option 2: N50,000 / Month (48 months)</li>
+                        </ul>
+                        <button class="button button-primary">Simulate Payment</button>
+                    </div>
+
+                    <div class="plan-card">
+                        <h3>Standard Plot (75x50)</h3>
+                        <p class="price-tag">Total: N3,000,000</p>
+                        <ul>
+                            <li>**Size:** ~375 sqm (75ft by 50ft)</li>
+                            <li>**Duration:** 30 Months</li>
+                            <li><span class="total-price">Option 1: N100,000 / Month</span></li>
+                            <li>Option 2: N50,000 / Month (60 months)</li>
+                        </ul>
+                        <button class="button button-primary">Simulate Payment</button>
+                    </div>
+                    
+                    <div class="plan-card">
+                        <h3>Full Plot (100x50)</h3>
+                        <p class="price-tag">Total: N4,800,000</p>
+                        <ul>
+                            <li>**Size:** ~500 sqm (100ft by 50ft)</li>
+                            <li>**Duration:** 48 Months</li>
+                            <li><span class="total-price">Option 1: N100,000 / Month</span></li>
+                            <li>Option 2: N50,000 / Month (96 months)</li>
+                        </ul>
+                        <button class="button button-primary">Simulate Payment</button>
+                    </div>
+                </div>
+                
+                <div class="info-box">
+                    <p>⚠️ **Criteria for Installment Payments:**</p>
+                    <ol>
+                        <li>**Initial Deposit:** A minimum down payment (e.g., 10%) is often required (not calculated here).</li>
+                        <li>**Documentation:** Valid ID and proof of address.</li>
+                        <li>**Consistency:** Monthly payments must be made on time to avoid contract termination.</li>
+                        <li>**Possession:** Land possession and building rights are typically granted after 50-70% of the payment is completed.</li>
+                    </ol>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <footer>
-        &copy; 2025 Family and Co Group. All Rights Reserved.
+        <p>&copy; 2025 Nigeria Property Hub. All Rights Reserved. (Front-end Demo)</p>
     </footer>
-</body>
+
+    <script>
+
+        const MAX_MEDIA = 10;
+
+        const subContentMap = {
+
+            'list-property': document.getElementById('list-property'),
+
+            'management-guide': document.getElementById('management-guide')
+
+        };
+
+        const listingTypeSelect = document.getElementById('listing-type');
+
+        const surveyPlanGroup = document.getElementById('survey-plan-group');
+
+
+
+        // --- 1. Tab Switching Logic ---
+
+        document.querySelectorAll('.tab-button').forEach(button => {
+
+            button.addEventListener('click', (e) => {
+
+                const targetTab = e.target.dataset.tab || e.target.dataset.subtab;
+
+                const isSubTab = !!e.target.dataset.subtab;
+
+
+
+                if (isSubTab) {
+
+                    // Sub-tab logic
+
+                    document.querySelectorAll('#seller-listing .tab-button').forEach(btn => btn.classList.remove('active'));
+
+                    document.querySelectorAll('#seller-listing .sub-content').forEach(content => content.classList.remove('active'));
+
+                    
+
+                    e.target.classList.add('active');
+
+                    subContentMap[targetTab].classList.add('active');
+
+                } else {
+
+                    // Main tab logic
+
+                    document.querySelectorAll('.tab-button').forEach(btn => {
+
+                        if (!btn.dataset.subtab) btn.classList.remove('active');
+
+                    });
+
+                    document.querySelectorAll('.content-section').forEach(content => content.classList.remove('active'));
+
+
+
+                    e.target.classList.add('active');
+
+                    document.getElementById(targetTab).classList.add('active');
+
+                }
+
+            });
+
+        });
+
+
+
+        // --- 2. Media Upload and Preview Logic ---
+
+        window.previewMedia = function(event) {
+
+            const previewContainer = document.getElementById('image-preview');
+
+            const mediaInput = document.getElementById('listing-media');
+
+            const files = Array.from(mediaInput.files);
+
+            const mediaCountMessage = document.getElementById('media-count-message');
+
+
+
+            // Clear previous previews
+
+            previewContainer.innerHTML = '';
+
+
+
+            const validFiles = files.slice(0, MAX_MEDIA);
+
+            const currentCount = validFiles.length;
+
+            
+
+            mediaCountMessage.textContent = `Attached: ${currentCount} / ${MAX_MEDIA}.`;
+
+            mediaCountMessage.style.color = currentCount > 0 ? 'var(--secondary-color)' : 'var(--accent-color)';
+
+
+
+
+
+            validFiles.forEach((file, index) => {
+
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+
+                    const previewItem = document.createElement('div');
+
+                    previewItem.className = 'preview-item';
+
+                    
+
+                    const element = (file.type.startsWith('image/')) ? 
+
+                        `<img src="${e.target.result}" alt="Media Preview ${index}">` :
+
+                        `<img src="https://via.placeholder.com/80?text=Video" alt="Video Placeholder">`; // Simplified video preview
+
+
+
+                    previewItem.innerHTML = `
+
+                        ${element}
+
+                        <button type="button" class="remove-btn" onclick="removeMedia(${index})">X</button>
+
+                    `;
+
+                    previewContainer.appendChild(previewItem);
+
+                };
+
+                reader.readAsDataURL(file);
+
+            });
+
+            
+
+            // Re-assign the truncated list to the input's files property (browser compatibility varies, but good practice)
+
+            const dt = new DataTransfer();
+
+            validFiles.forEach(file => dt.items.add(file));
+
+            mediaInput.files = dt.files;
+
+        }
+
+        
+
+        // --- 3. Optional Survey Plan Field Logic ---
+
+        listingTypeSelect.addEventListener('change', (e) => {
+
+            // Show survey plan field only if the listing is for 'sale' (often land/house)
+
+            if (e.target.value === 'sale') {
+
+                surveyPlanGroup.style.display = 'block';
+
+            } else {
+
+                surveyPlanGroup.style.display = 'none';
+
+            }
+
+        });
+
+        
+
+        // --- 4. Form Submission and Simulation Logic ---
+
+        document.getElementById('renter-form').addEventListener('submit', function(e) {
+
+            e.preventDefault();
+
+            const location = document.getElementById('renter-location').value;
+
+            const budget = document.getElementById('renter-budget').value;
+
+            alert(`✅ Success! Rental Request Submitted. Looking for properties in ${location} with a max budget of N${budget.toLocaleString()}. (Data not saved - No Backend)`);
+
+            this.reset();
+
+        });
+
+
+
+        document.getElementById('listing-form').addEventListener('submit', function(e) {
+
+            e.preventDefault();
+
+            const type = document.getElementById('listing-type').value;
+
+            const location = document.getElementById('listing-location').value;
+
+            alert(`✅ Success! Property Listing Submitted for ${type.toUpperCase()} in ${location}. (Data not saved - No Backend)`);
+
+            this.reset();
+
+            document.getElementById('image-preview').innerHTML = '';
+
+            document.getElementById('media-count-message').textContent = '';
+
+            surveyPlanGroup.style.display = 'none';
+
+        });
+
+
+
+        document.getElementById('management-form').addEventListener('submit', function(e) {
+
+            e.preventDefault();
+
+            const email = document.getElementById('manager-email').value;
+
+            const messageBox = document.getElementById('management-guide-message');
+
+            
+
+            messageBox.style.display = 'block';
+
+            messageBox.innerHTML = `<strong>📧 Request Sent!</strong> A link to the comprehensive Property Management Guide will be sent to <strong>${email}</strong> shortly. Thank you!`;
+
+            this.reset();
+
+        });
+
+        
+
+        // --- 5. Payment Plan Simulation ---
+
+        document.querySelectorAll('#land-payment .button-primary').forEach(button => {
+
+            button.addEventListener('click', function() {
+
+                const planCard = this.closest('.plan-card');
+
+                const plotSize = planCard.querySelector('h3').textContent;
+
+                const totalPrice = planCard.querySelector('.price-tag').textContent;
+
+                const monthlyOption = planCard.querySelector('.total-price').textContent;
+
+                
+
+                alert(`🛒 Checkout Simulation:\n\nPlot: ${plotSize}\n${totalPrice}\nInstallment: ${monthlyOption}\n\n[SIMULATED PAYMENT GATEWAY]\nYour payment intent for the first installment would be processed here. Please check the "Criteria" box for details.`);
+
+            });
+
+        });
+
+    </script>
+
+    </body>
+
 </html>
