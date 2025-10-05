@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family & Co Realty</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    body {font-family: Poppins, sans-serif; margin:0; background:#fafafa;}
+    header {background:#004080; color:white; padding:1rem; text-align:center;}
+    header h1 i {margin-right:8px;}
+    nav button {margin:0.3rem; padding:0.5rem 1rem; background:white; color:#004080; border:none; border-radius:5px;}
+    .mode {display:none; padding:1rem;}
+    .mode.active {display:block;}
+    form {display:flex; flex-direction:column; gap:0.6rem; max-width:500px; margin:auto;}
+    input, textarea {padding:0.6rem; border:1px solid #ccc; border-radius:5px;}
+    button {background:#004080; color:white; border:none; border-radius:5px; padding:0.7rem;}
+    #listings, #requestsList {margin-top:1rem;}
+    .item {background:white; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,.1); margin:1rem auto; padding:1rem; max-width:600px;}
+    .item video, .item img {max-width:100%; border-radius:5px; margin-top:0.5rem;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-users"></i> Family & Co Realty</h1>
+    <nav>
+      <button id="mode-renter">Renter Mode</button>
+      <button id="mode-agent">Agent Mode</button>
+    </nav>
+  </header>
+
+  <section id="renter-mode" class="mode active">
+    <h2>Find or Request a Property</h2>
+    <form id="renterForm">
+      <input type="text" id="renterName" placeholder="Your name" required>
+      <input type="text" id="renterLocation" placeholder="City or Area" required>
+      <textarea id="renterRequest" placeholder="Describe what you need (e.g. 2-bedroom flat)" required></textarea>
+      <button type="submit">Post Request</button>
+    </form>
+    <div id="requestsList"></div>
+  </section>
+
+  <section id="agent-mode" class="mode">
+    <h2>Post a Property Listing</h2>
+    <form id="agentForm">
+      <input type="text" id="agentName" placeholder="Agent/Agency Name" required>
+      <input type="text" id="propertyLocation" placeholder="City or Area" required>
+      <input type="number" id="propertyPrice" placeholder="Price (₦)" required>
+      <textarea id="propertyDesc" placeholder="Describe the property" required></textarea>
+      <input type="file" id="propertyMedia" multiple accept="image/*,video/*">
+      <button type="submit">Post Listing</button>
+    </form>
+    <div id="listings"></div>
+  </section>
+
+  <script type="module">
+    // --- FIREBASE IMPORTS ---
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+    // --- YOUR FIREBASE CONFIG ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyDfkTp-tdqcTMSSeZN2SejYLLQRph0D8_8",
+      authDomain: "family-and-co-realty.firebaseapp.com",
+      projectId: "family-and-co-realty",
+      storageBucket: "family-and-co-realty.firebasestorage.app",
+      messagingSenderId: "889037749879",
+      appId: "1:889037749879:web:e86e4d0dd5574e5a715072",
+      measurementId: "G-C8WNNGTDW4"
+    };
+
+    // --- INITIALIZE ---
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+    const auth = getAuth(app);
+    signInAnonymously(auth);
+
+    // --- UI TOGGLE ---
+    document.getElementById("mode-renter").onclick = () => toggleMode("renter");
+    document.getElementById("mode-agent").onclick = () => toggleMode("agent");
+
+    function toggleMode(mode) {
+      document.querySelectorAll(".mode").forEach(m => m.classList.remove("active"));
+      document.getElementById(mode + "-mode").classList.add("active");
+    }
+
+    // --- RENTER REQUEST ---
+    document.getElementById("renterForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const name = renterName.value.trim();
+      const location = renterLocation.value.trim();
+      const request = renterRequest.value.trim();
+      if (!name || !location || !request) return;
+      await addDoc(collection(db, "requests"), {
+        name, location, request, created: new Date().toISOString()
+      });
+      alert("Request posted!");
+      renterForm.reset();
+      loadRequests();
+    });
+
+    // --- AGENT LISTING ---
+    document.getElementById("agentForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const name = agentName.value.trim();
+      const location = propertyLocation.value.trim();
+      const price = propertyPrice.value.trim();
+      const desc = propertyDesc.value.trim();
+      const files = propertyMedia.files;
+      const mediaURLs = [];
+
+      for (let file of files) {
+        const path = `media/${Date.now()}-${file.name}`;
+        const storageRef = ref(storage, path);
+        await uploadBytes(storageRef, file);
+        mediaURLs.push(await getDownloadURL(storageRef));
+      }
+
+      await addDoc(collection(db, "listings"), {
+        name, location, price, desc, mediaURLs, created: new Date().toISOString()
+      });
+      alert("Listing uploaded!");
+      agentForm.reset();
+      loadListings();
+    });
+
+    // --- LOAD REQUESTS ---
+    async function loadRequests() {
+      const q = query(collection(db, "requests"), orderBy("created", "desc"));
+      const snap = await getDocs(q);
+      const container = document.getElementById("requestsList");
+      container.innerHTML = "";
+      snap.forEach(doc => {
+        const d = doc.data();
+        container.innerHTML += `
+          <div class="item">
+            <h3>${d.location}</h3>
+            <p><strong>${d.name}</strong>: ${d.request}</p>
+          </div>`;
+      });
+    }
+
+    // --- LOAD LISTINGS ---
+    async function loadListings() {
+      const q = query(collection(db, "listings"), orderBy("created", "desc"));
+      const snap = await getDocs(q);
+      const container = document.getElementById("listings");
+      container.innerHTML = "";
+      snap.forEach(doc => {
+        const d = doc.data();
+        let mediaHTML = "";
+        d.mediaURLs?.forEach(url => {
+          if (url.match(/\.mp4|\.webm|\.mov/i))
+            mediaHTML += `<video controls src="${url}"></video>`;
+          else
+            mediaHTML += `<img src="${url}">`;
+        });
+        container.innerHTML += `
+          <div class="item">
+            <h3>${d.location} — ₦${d.price}</h3>
+            <p><strong>${d.name}</strong></p>
+            <p>${d.desc}</p>
+            ${mediaHTML}
+          </div>`;
+      });
+    }
+
+    loadRequests();
+    loadListings();
+  </script>
+</body>
+</html>
