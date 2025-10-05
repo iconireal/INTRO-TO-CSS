@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Voice of the Streets</title>
+  <meta name="description" content="Record, upload and listen to community voices — Voice of the Streets" />
+  <style>
+    /* Simple mobile-first Afro-urban style */
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#f59e0b; --muted:#94a3b8; --white:#fff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,#071025 0%, #071a2b 100%);color:var(--white);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:18px;}
+    header{width:100%;max-width:980px;margin-bottom:14px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#f97316,#fde68a);display:flex;align-items:center;justify-content:center;color:#071025;font-weight:800;font-size:20px}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:4px 0 0;color:var(--muted);font-size:13px}
+    main{width:100%;max-width:980px;display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
+    @media(max-width:900px){main{grid-template-columns:1fr;}}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.6);}
+    /* Recorder */
+    .recorder{display:flex;flex-direction:column;gap:12px}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--accent);border:none;padding:10px 12px;border-radius:10px;color:#071025;font-weight:600;cursor:pointer}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.08);color:var(--white)}
+    .record-dot{width:12px;height:12px;border-radius:50%;background:#ef4444;display:inline-block;margin-right:8px;box-shadow:0 0 8px rgba(239,68,68,0.8)}
+    .meter{height:8px;background:rgba(255,255,255,0.06);border-radius:8px;overflow:hidden}
+    .meter > i{display:block;height:100%;width:0%;background:linear-gradient(90deg, #f97316, #fde68a);transition:width 120ms linear}
+    label.small{font-size:12px;color:var(--muted)}
+    /* Feed */
+    .feed{display:flex;flex-direction:column;gap:12px}
+    .post{display:flex;gap:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
+    .post .meta{flex:1}
+    .meta h3{margin:0;font-size:14px}
+    .meta p{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .audio-row{display:flex;gap:8px;align-items:center;margin-top:10px}
+    .small{font-size:12px;color:var(--muted)}
+    /* right column */
+    .right-col{display:flex;flex-direction:column;gap:12px}
+    .trend{display:flex;flex-direction:column;gap:8px}
+    .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-size:12px}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+    .hidden{display:none}
+    .upload-input{display:none}
+    .notice{font-size:13px;color:var(--muted)}
+    .progress{height:10px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden}
+    .progress > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#10b981,#06b6d4)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">VS</div>
+      <div>
+        <h1>Voice of the Streets</h1>
+        <p class="lead">Record & share short voices from your community — light on data, heavy on truth.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <!-- Recorder -->
+      <div class="recorder">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <label class="small">Status</label>
+            <div id="authStatus" class="notice">Connecting to cloud...</div>
+          </div>
+          <div>
+            <button id="refreshFeed" class="btn secondary">Refresh Feed</button>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;align-items:center;justify-content:space-between">
+          <div>
+            <label class="small">Your display name (optional)</label>
+            <input id="displayName" placeholder="e.g. Musa, Aisha" style="padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--white)"/>
+          </div>
+          <div style="text-align:right">
+            <label class="small">Max clip</label>
+            <div class="small">60 seconds</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;align-items:center">
+          <button id="startRec" class="btn">Start Recording</button>
+          <button id="stopRec" class="btn" disabled>Stop & Upload</button>
+          <label class="btn secondary" for="fileUpload" style="cursor:pointer">Upload Audio</label>
+          <input id="fileUpload" class="upload-input" type="file" accept="audio/*,video/*"/>
+          <div id="recTimer" class="small">00:00</div>
+        </div>
+
+        <div class="meter" title="Recording level"><i id="levelBar"></i></div>
+
+        <div>
+          <label class="small">Tag (topic)</label>
+          <input id="tagInput" placeholder="#community #market" style="width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--white)"/>
+        </div>
+
+        <div>
+          <label class="small">Caption (short)</label>
+          <input id="captionInput" placeholder="What's happening in your area?" style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--white)"/>
+        </div>
+
+        <div class="notice small">Tips: keep clips under 60s; tag with a region or topic to help others find you.</div>
+      </div>
+
+      <hr style="border:none;height:12px" />
+
+      <!-- Feed -->
+      <div>
+        <h2 style="margin:0 0 12px 0;font-size:16px">Latest Voices</h2>
+        <div id="feed" class="feed">
+          <div class="small">Loading feed…</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- right column -->
+    <aside class="right-col">
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">Trending Tags</h3>
+        <div id="trending" class="trend">
+          <div class="small">Loading tags…</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">Nearby</h3>
+        <div class="small">This demo shows global posts. In production you can add geolocation and filters.</div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 8px 0">About</h3>
+        <div class="small">Open-source, lightweight community voice feed. Built with vanilla JS + Firebase. Host it and make it yours.</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <div style="width:100%;max-width:980px;margin:10px auto 0 auto;display:flex;justify-content:space-between;align-items:center">
+      <div class="small">Built for Africa. Respect privacy — don't upload others' audio without consent.</div>
+      <div class="small">Version 1 — Local & cloud demo</div>
+    </div>
+  </footer>
+
+  <!-- Firebase SDK (modular) -->
+  <script type="module">
+  // ======= IMPORTANT =======
+  // Replace the firebaseConfig object below with your own project's config.
+  // Get it from Firebase Console -> Project settings -> SDK setup and configuration.
+  // =========================
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+  import { getStorage, ref as sref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-storage.js";
+
+  const firebaseConfig = {
+  apiKey: "AIzaSyDqWzbAGrpDEKir_0O_nWkHUFVBLmPt18o",
+  authDomain: "voice-of-streets.firebaseapp.com",
+  projectId: "voice-of-streets",
+  storageBucket: "voice-of-streets.firebasestorage.app",
+  messagingSenderId: "417585795867",
+  appId: "1:417585795867:web:0e90c4f016b0c8bbbc79be",
+  measurementId: "G-VYCZQB7W7T"
+};
+
+  // init
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
+
+  // DOM
+  const authStatus = document.getElementById('authStatus');
+  const startBtn = document.getElementById('startRec');
+  const stopBtn = document.getElementById('stopRec');
+  const feedEl = document.getElementById('feed');
+  const levelBar = document.getElementById('levelBar');
+  const recTimer = document.getElementById('recTimer');
+  const fileUpload = document.getElementById('fileUpload');
+  const refreshFeed = document.getElementById('refreshFeed');
+  const displayNameInput = document.getElementById('displayName');
+  const tagInput = document.getElementById('tagInput');
+  const captionInput = document.getElementById('captionInput');
+  const trendingEl = document.getElementById('trending');
+
+  // state
+  let mediaRecorder;
+  let recordedChunks = [];
+  let audioStream;
+  let meterProcessor;
+  let recordingStartTime;
+  let updateTimerInterval;
+  const MAX_SECONDS = 60;
+
+  // Auth: anonymous sign-in
+  authStatus.textContent = 'Connecting anonymously...';
+  signInAnonymously(auth).then(() => {
+    authStatus.textContent = 'Connected (anonymous). You can post!';
+  }).catch(err => {
+    console.error(err);
+    authStatus.textContent = 'Auth failed: ' + err.message;
+  });
+
+  onAuthStateChanged(auth, user => {
+    if(user) {
+      // user.uid available
+    }
+  });
+
+  // start recording
+  startBtn.addEventListener('click', async () => {
+    // request mic
+    try {
+      audioStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+    } catch (e) {
+      alert('Microphone access is required to record. Please allow microphone in your browser.');
+      return;
+    }
+    recordedChunks = [];
+    mediaRecorder = new MediaRecorder(audioStream, { mimeType: 'audio/webm' });
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data && e.data.size > 0) recordedChunks.push(e.data);
+    };
+    mediaRecorder.onstop = handleRecordingStop;
+    mediaRecorder.start(250); // collect data every 250ms
+    setupAudioMeter(audioStream);
+
+    startBtn.disabled = true;
+    stopBtn.disabled = false;
+    recordingStartTime = Date.now();
+    recTimer.textContent = '00:00';
+    updateTimerInterval = setInterval(updateTimer, 250);
+  });
+
+  stopBtn.addEventListener('click', () => {
+    if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+    if(audioStream) {
+      audioStream.getTracks().forEach(t => t.stop());
+      audioStream = null;
+    }
+    stopBtn.disabled = true;
+    startBtn.disabled = false;
+    clearInterval(updateTimerInterval);
+    recTimer.textContent = '00:00';
+    levelBar.style.width = '0%';
+  });
+
+  // Upload from file (audio or video)
+  fileUpload.addEventListener('change', async (ev) => {
+    const file = ev.target.files[0];
+    if(!file) return;
+    // If user uploaded video, try to extract audio by creating an audio element and capturing the blob:
+    // For simplicity, we upload the file directly (Storage accepts many types). In production, you'd extract audio server-side.
+    await uploadAudioFile(file);
+    fileUpload.value = '';
+  });
+
+  // refresh feed
+  refreshFeed.addEventListener('click', () => {
+    loadFeed();
+  });
+
+  // update timer
+  function updateTimer(){
+    if(!recordingStartTime) return;
+    const s = Math.floor((Date.now() - recordingStartTime)/1000);
+    if(s >= MAX_SECONDS){
+      // auto-stop
+      if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+      if(audioStream) audioStream.getTracks().forEach(t => t.stop());
+      stopBtn.disabled = true;
+      startBtn.disabled = false;
+      clearInterval(updateTimerInterval);
+    }
+    recTimer.textContent = `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+  }
+
+  // audio meter (visualization)
+  function setupAudioMeter(stream){
+    // basic level meter using AnalyserNode
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const source = ctx.createMediaStreamSource(stream);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 256;
+      source.connect(analyser);
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      function tick(){
+        analyser.getByteFrequencyData(data);
+        let sum=0;
+        for(let i=0;i<data.length;i++) sum += data[i];
+        const avg = sum / data.length;
+        const pct = Math.min(100, Math.max(0, (avg/128)*100));
+        levelBar.style.width = pct + '%';
+        requestAnimationFrame(tick);
+      }
+      tick();
+    } catch(e){
+      console.warn('Meter setup failed', e);
+    }
+  }
+
+  // when recording stops -> upload blob
+  async function handleRecordingStop(){
+    const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+    // optional: trim silence or convert to mp3 — not done here (client-side only)
+    await uploadAudioFile(blob);
+  }
+
+  // upload audio file blob to Firebase Storage, then create post in Firestore
+  async function uploadAudioFile(fileBlobOrFile){
+    try {
+      authStatus.textContent = 'Uploading...';
+      const uid = auth.currentUser ? auth.currentUser.uid : 'anon';
+      // generate filename
+      const ts = Date.now();
+      const filename = `voices/${uid}_${ts}.webm`;
+      const storageRef = sref(storage, filename);
+      // if it's a File, it's fine; if Blob, ensure type present
+      const payload = fileBlobOrFile instanceof Blob ? new Blob([fileBlobOrFile], { type: fileBlobOrFile.type || 'audio/webm' }) : fileBlobOrFile;
+      const uploadTask = uploadBytesResumable(storageRef, payload);
+
+      // progress UI (basic)
+      const pbar = document.createElement('div');
+      pbar.className = 'progress';
+      pbar.style.marginTop = '8px';
+      const inner = document.createElement('i');
+      pbar.appendChild(inner);
+      document.querySelector('.recorder').appendChild(pbar);
+
+      uploadTask.on('state_changed', (snapshot) => {
+        const pct = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        inner.style.width = pct + '%';
+      }, (err) => {
+        console.error('Upload error', err);
+        authStatus.textContent = 'Upload failed: ' + err.message;
+        pbar.remove();
+      }, async () => {
+        const url = await getDownloadURL(uploadTask.snapshot.ref);
+        // create post doc
+        const doc = {
+          displayName: (displayNameInput.value || 'Anonymous'),
+          caption: captionInput.value || '',
+          tag: tagInput.value || '',
+          audioURL: url,
+          createdAt: serverTimestamp()
+        };
+        await addDoc(collection(db, 'voices'), doc);
+        authStatus.textContent = 'Upload complete — post live!';
+        pbar.remove();
+        captionInput.value = '';
+        tagInput.value = '';
+        loadFeed(); // refresh
+      });
+
+    } catch (e) {
+      console.error(e);
+      authStatus.textContent = 'Upload error: ' + e.message;
+    }
+  }
+
+  // Feed: realtime listener
+  let unsubscribeFeed = null;
+  function loadFeed(){
+    if(unsubscribeFeed) unsubscribeFeed(); // detach
+    feedEl.innerHTML = '<div class="small">Loading feed…</div>';
+    const q = query(collection(db, 'voices'), orderBy('createdAt', 'desc'), limit(50));
+    unsubscribeFeed = onSnapshot(q, snapshot => {
+      const docs = [];
+      snapshot.forEach(doc => docs.push({id: doc.id, ...doc.data()}));
+      renderFeed(docs);
+      renderTrending(docs);
+    }, err => {
+      console.error('Feed error', err);
+      feedEl.innerHTML = `<div class="small">Feed error: ${err.message}</div>`;
+    });
+  }
+
+  function renderFeed(items){
+    if(!items.length){
+      feedEl.innerHTML = '<div class="small">No voices yet. Be the first to record!</div>';
+      return;
+    }
+    feedEl.innerHTML = '';
+    items.forEach(it => {
+      const post = document.createElement('div');
+      post.className = 'post';
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      const title = document.createElement('h3');
+      title.textContent = `${it.displayName || 'Anonymous'} ${it.tag ? '· ' + it.tag : ''}`;
+      const cap = document.createElement('p');
+      cap.textContent = it.caption || '';
+      cap.style.whiteSpace = 'pre-wrap';
+      meta.appendChild(title);
+      meta.appendChild(cap);
+
+      const audioCol = document.createElement('div');
+      audioCol.style.display = 'flex';
+      audioCol.style.flexDirection = 'column';
+      audioCol.style.alignItems = 'flex-end';
+
+      // audio element
+      const audioRow = document.createElement('div');
+      audioRow.className = 'audio-row';
+      const audio = document.createElement('audio');
+      audio.controls = true;
+      audio.src = it.audioURL;
+      audio.preload = 'none';
+      audioRow.appendChild(audio);
+
+      // time
+      const time = document.createElement('div');
+      time.className = 'small';
+      // createdAt may be timestamp; show placeholder if null
+      time.textContent = it.createdAt && it.createdAt.seconds ? timeAgo(it.createdAt.seconds * 1000) : 'just now';
+      audioRow.appendChild(time);
+
+      audioCol.appendChild(audioRow);
+      post.appendChild(meta);
+      post.appendChild(audioCol);
+      feedEl.appendChild(post);
+    });
+  }
+
+  // trending tags
+  function renderTrending(items){
+    const counts = {};
+    items.forEach(it => {
+      const t = (it.tag || '').trim();
+      if(!t) return;
+      const parts = t.split(/\s+/);
+      parts.forEach(p => {
+        counts[p] = (counts[p] || 0) + 1;
+      });
+    });
+    const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,12);
+    if(!entries.length){
+      trendingEl.innerHTML = '<div class="small">No tags yet. Add #market #traffic #vibes</div>';
+      return;
+    }
+    trendingEl.innerHTML = '';
+    entries.forEach(([tag,cnt]) => {
+      const el = document.createElement('span');
+      el.className = 'tag';
+      el.textContent = `${tag} · ${cnt}`;
+      trendingEl.appendChild(el);
+    });
+  }
+
+  // utility: human relative time
+  function timeAgo(ms){
+    const s = Math.floor((Date.now() - ms)/1000);
+    if(s < 60) return s + 's';
+    if(s < 3600) return Math.floor(s/60) + 'm';
+    if(s < 86400) return Math.floor(s/3600) + 'h';
+    return Math.floor(s/86400) + 'd';
+  }
+
+  // initial feed load
+  loadFeed();
+
+  </script>
+</body>
+</html>
